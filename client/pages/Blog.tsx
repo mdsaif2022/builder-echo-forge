@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { User, Calendar, Eye, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Blog() {
   return (
@@ -22,8 +23,9 @@ export default function Blog() {
           <Button
             size="lg"
             className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 font-semibold"
+            asChild
           >
-            Share Your Story
+            <Link to="/blog/submit">Share Your Story</Link>
           </Button>
         </div>
       </section>
