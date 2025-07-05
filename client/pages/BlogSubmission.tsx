@@ -697,6 +697,19 @@ export default function BlogSubmission() {
 
                 <div>
                   <h4 className="font-semibold text-emerald-900 mb-2">
+                    Video Guidelines:
+                  </h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• Maximum 3 videos per story</li>
+                    <li>• MP4, MOV, AVI, MKV, WebM formats</li>
+                    <li>• Each video under 50MB</li>
+                    <li>• Share your enjoyable travel moments</li>
+                    <li>• Keep videos under 2 minutes</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-emerald-900 mb-2">
                     Review Process:
                   </h4>
                   <ul className="text-sm text-gray-600 space-y-1">
