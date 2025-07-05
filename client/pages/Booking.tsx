@@ -31,6 +31,7 @@ const tours = [
     id: 1,
     name: "Sundarbans Adventure",
     location: "Khulna Division",
+    destination: "Khulna",
     duration: "3 Days",
     price: 15000,
     image: "🌿",
@@ -39,6 +40,7 @@ const tours = [
     id: 2,
     name: "Cox's Bazar Beach",
     location: "Chittagong Division",
+    destination: "Cox's Bazar",
     duration: "2 Days",
     price: 8000,
     image: "🏖️",
@@ -47,6 +49,7 @@ const tours = [
     id: 3,
     name: "Srimangal Tea Gardens",
     location: "Sylhet Division",
+    destination: "Sylhet",
     duration: "2 Days",
     price: 6500,
     image: "🍃",
@@ -55,6 +58,7 @@ const tours = [
     id: 4,
     name: "Historical Dhaka",
     location: "Dhaka Division",
+    destination: "Dhaka",
     duration: "1 Day",
     price: 3500,
     image: "🏛️",
@@ -113,7 +117,7 @@ export default function Booking() {
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [bookingData, setBookingData] = useState({
     from: "",
-    to: "",
+    to: selectedTour.destination, // Set fixed destination based on selected tour
     persons: 1,
     date: "",
     selectedSeats: [] as string[],
@@ -380,24 +384,39 @@ export default function Booking() {
                     </div>
 
                     <div>
-                      <Label htmlFor="to">To</Label>
-                      <Select
-                        value={bookingData.to}
-                        onValueChange={(value) =>
-                          setBookingData((prev) => ({ ...prev, to: value }))
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select destination" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {locations.map((location) => (
-                            <SelectItem key={location} value={location}>
-                              {location}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="to">To (Fixed Destination)</Label>
+                      <div className="relative">
+                        <div className="flex h-10 w-full rounded-md border border-input bg-gray-50 px-3 py-2 text-sm ring-offset-background">
+                          <div className="flex items-center space-x-2">
+                            <MapPin className="w-4 h-4 text-emerald-600" />
+                            <span className="font-medium text-emerald-700">
+                              {selectedTour.destination}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              (Tour Destination)
+                            </span>
+                          </div>
+                        </div>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                          <svg
+                            className="w-4 h-4 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 15l-3-3h6l-3 3z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Destination is automatically set based on your selected
+                        tour: {selectedTour.name}
+                      </p>
                     </div>
                   </div>
 
@@ -445,9 +464,7 @@ export default function Booking() {
                   <Button
                     onClick={() => setStep(2)}
                     className="w-full bg-emerald-600 hover:bg-emerald-700"
-                    disabled={
-                      !bookingData.from || !bookingData.to || !bookingData.date
-                    }
+                    disabled={!bookingData.from || !bookingData.date}
                   >
                     Continue to Seat Selection
                   </Button>
