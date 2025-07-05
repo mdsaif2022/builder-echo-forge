@@ -288,6 +288,7 @@ export default function BlogSubmission() {
                       content: "",
                       tags: [],
                       images: [],
+                      videos: [],
                     });
                   }}
                 >
