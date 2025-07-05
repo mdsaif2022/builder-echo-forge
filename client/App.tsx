@@ -12,6 +12,7 @@ import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import Booking from "./pages/Booking";
+import BlogSubmission from "./pages/BlogSubmission";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/blog/submit" element={<BlogSubmission />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>
