@@ -379,6 +379,27 @@ export default function BlogSubmission() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Form */}
           <div className="lg:col-span-2">
+            {/* Validation Error Summary */}
+            {Object.keys(errors).length > 0 && (
+              <Card className="border-red-200 bg-red-50">
+                <CardContent className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-semibold text-red-800 mb-2">
+                        Please fix the following errors:
+                      </h3>
+                      <ul className="text-sm text-red-700 space-y-1">
+                        {Object.entries(errors).map(([field, message]) => (
+                          <li key={field}>• {message}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <Card>
                 <CardHeader>
@@ -690,6 +711,10 @@ export default function BlogSubmission() {
                 size="lg"
                 className="w-full bg-emerald-600 hover:bg-emerald-700"
                 disabled={isSubmitting}
+                onClick={(e) => {
+                  console.log("Submit button clicked");
+                  // The form onSubmit will handle the actual submission
+                }}
               >
                 {isSubmitting ? (
                   <div className="flex items-center">
