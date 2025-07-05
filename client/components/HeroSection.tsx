@@ -18,14 +18,14 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl">
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight">
           Discover the
           <span className="block bg-gradient-to-r from-orange-400 to-orange-300 bg-clip-text text-transparent">
             Beauty of Bangladesh
           </span>
         </h1>
 
-        <p className="text-xl sm:text-2xl text-emerald-50 mb-8 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-lg sm:text-xl md:text-2xl text-emerald-50 mb-8 max-w-3xl mx-auto leading-relaxed px-4">
           From the mystical Sundarbans to the pristine beaches of Cox's Bazar,
           experience the rich culture, heritage, and natural wonders of
           Bangladesh
