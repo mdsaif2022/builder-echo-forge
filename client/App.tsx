@@ -19,6 +19,7 @@ import UserManagement from "./pages/admin/UserManagement";
 import TourManagement from "./pages/admin/TourManagement";
 import BlogManagement from "./pages/admin/BlogManagement";
 import AdminSettings from "./pages/admin/AdminSettings";
+import NewTour from "./pages/admin/NewTour";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="tours" element={<TourManagement />} />
+            <Route path="tours/new" element={<NewTour />} />
             <Route path="blogs" element={<BlogManagement />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
