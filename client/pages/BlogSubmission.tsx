@@ -21,9 +21,11 @@ import {
   X,
   FileText,
   Image as ImageIcon,
+  Video,
   Send,
   AlertCircle,
   CheckCircle,
+  Play,
 } from "lucide-react";
 
 const categories = [
@@ -62,6 +64,7 @@ export default function BlogSubmission() {
     content: "",
     tags: [] as string[],
     images: [] as File[],
+    videos: [] as File[],
   });
 
   const [currentTag, setCurrentTag] = useState("");
@@ -104,10 +107,54 @@ export default function BlogSubmission() {
     }));
   };
 
+  const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+
+    // Validate video files
+    const validFiles = files.filter((file) => {
+      const allowedTypes = [
+        "video/mp4",
+        "video/mov",
+        "video/avi",
+        "video/mkv",
+        "video/webm",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        alert(
+          `${file.name} is not a valid video format. Please use MP4, MOV, AVI, MKV, or WebM.`,
+        );
+        return false;
+      }
+      if (file.size > 50 * 1024 * 1024) {
+        // 50MB limit for videos
+        alert(`${file.name} is too large. Please use videos under 50MB.`);
+        return false;
+      }
+      return true;
+    });
+
+    if (formData.videos.length + validFiles.length > 3) {
+      alert("You can upload maximum 3 videos per blog post.");
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      videos: [...prev.videos, ...validFiles],
+    }));
+  };
+
   const removeImage = (index: number) => {
     setFormData((prev) => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
+
+  const removeVideo = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      videos: prev.videos.filter((_, i) => i !== index),
     }));
   };
 
