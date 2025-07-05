@@ -78,8 +78,9 @@ export default function Tours() {
                     <Button
                       size="sm"
                       className="bg-gradient-to-r from-emerald-600 to-emerald-700"
+                      asChild
                     >
-                      Book Now
+                      <Link to={`/booking?tour=${index + 1}`}>Book Now</Link>
                     </Button>
                   </div>
                 </CardContent>

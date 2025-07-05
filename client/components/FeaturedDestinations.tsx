@@ -134,7 +134,7 @@ export default function FeaturedDestinations() {
                   className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 font-semibold"
                   asChild
                 >
-                  <Link to="/tours">Book Now</Link>
+                  <Link to={`/booking?tour=${destination.id}`}>Book Now</Link>
                 </Button>
               </CardContent>
             </Card>
