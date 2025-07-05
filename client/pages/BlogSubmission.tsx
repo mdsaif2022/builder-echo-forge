@@ -193,27 +193,69 @@ export default function BlogSubmission() {
       newErrors.tags = "At least one tag is required";
 
     setErrors(newErrors);
+
+    // Debug: Log validation results
+    console.log("Form validation:", {
+      hasErrors: Object.keys(newErrors).length > 0,
+      errors: newErrors,
+      formData: {
+        title: formData.title,
+        category: formData.category,
+        destination: formData.destination,
+        contentLength: formData.content.length,
+        tagsCount: formData.tags.length,
+      },
+    });
+
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log("Form submission started");
+    console.log("Current form data:", formData);
+
+    // Clear previous errors
+    setErrors({});
+
     if (!validateForm()) {
+      console.log("Form validation failed");
+      // Scroll to first error
+      const firstErrorElement = document.querySelector(".border-red-500");
+      if (firstErrorElement) {
+        firstErrorElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
       return;
     }
 
+    console.log("Form validation passed, submitting...");
     setIsSubmitting(true);
 
     try {
-      // Simulate API submission
+      // Simulate API submission with more realistic timing
+      console.log("Sending data to server...");
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      console.log("Blog submission:", formData);
+      // Log successful submission
+      console.log("Blog submission successful:", {
+        title: formData.title,
+        category: formData.category,
+        destination: formData.destination,
+        contentLength: formData.content.length,
+        tagsCount: formData.tags.length,
+        imagesCount: formData.images.length,
+        videosCount: formData.videos.length,
+      });
+
       setSubmitted(true);
+      console.log("Submission state updated, showing success page");
     } catch (error) {
-      alert("Submission failed. Please try again.");
       console.error("Submission error:", error);
+      alert("Submission failed. Please check your connection and try again.");
     } finally {
       setIsSubmitting(false);
     }
