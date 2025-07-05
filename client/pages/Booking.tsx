@@ -709,6 +709,79 @@ export default function Booking() {
                 </CardContent>
               </Card>
             )}
+
+            {step === 5 && bookingConfirmed && (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Check className="w-10 h-10 text-green-600" />
+                  </div>
+
+                  <h2 className="text-2xl font-bold text-emerald-900 mb-4">
+                    🎉 Booking Confirmed!
+                  </h2>
+
+                  <p className="text-gray-600 mb-6">
+                    Thank you for booking with Explore BD! Your booking has been
+                    confirmed and you will receive an SMS confirmation shortly.
+                  </p>
+
+                  <div className="bg-emerald-50 rounded-lg p-6 mb-6">
+                    <h3 className="font-semibold text-emerald-900 mb-3">
+                      Booking Details
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Booking ID:</span>
+                        <span className="font-mono">BD{Date.now()}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Tour:</span>
+                        <span>{selectedTour.name}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Route:</span>
+                        <span>
+                          {bookingData.from} → {bookingData.to}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Date:</span>
+                        <span>{bookingData.date}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Seats:</span>
+                        <span>{bookingData.selectedSeats.join(", ")}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Total Amount:</span>
+                        <span className="font-semibold">
+                          ৳{totalAmount.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Button
+                      className="w-full bg-emerald-600 hover:bg-emerald-700"
+                      asChild
+                    >
+                      <Link to="/">Return to Home</Link>
+                    </Button>
+
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link to="/tours">Book Another Tour</Link>
+                    </Button>
+                  </div>
+
+                  <p className="text-xs text-gray-500 mt-6">
+                    You will receive SMS confirmation at{" "}
+                    {bookingData.customerInfo.phone}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Booking Summary */}
