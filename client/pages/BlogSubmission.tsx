@@ -738,6 +738,74 @@ export default function BlogSubmission() {
                 <CardTitle>Submission Guidelines</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                {/* Form Progress */}
+                <div className="bg-emerald-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-emerald-900 mb-3">
+                    Form Progress:
+                  </h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span>Title:</span>
+                      <span
+                        className={
+                          formData.title.trim()
+                            ? "text-green-600"
+                            : "text-gray-400"
+                        }
+                      >
+                        {formData.title.trim() ? "✓" : "○"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Category:</span>
+                      <span
+                        className={
+                          formData.category ? "text-green-600" : "text-gray-400"
+                        }
+                      >
+                        {formData.category ? "✓" : "○"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Destination:</span>
+                      <span
+                        className={
+                          formData.destination
+                            ? "text-green-600"
+                            : "text-gray-400"
+                        }
+                      >
+                        {formData.destination ? "✓" : "○"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Content (100+ chars):</span>
+                      <span
+                        className={
+                          formData.content.length >= 100
+                            ? "text-green-600"
+                            : "text-gray-400"
+                        }
+                      >
+                        {formData.content.length >= 100
+                          ? "✓"
+                          : `${formData.content.length}/100`}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Tags (1+ required):</span>
+                      <span
+                        className={
+                          formData.tags.length > 0
+                            ? "text-green-600"
+                            : "text-gray-400"
+                        }
+                      >
+                        {formData.tags.length > 0 ? "✓" : "○"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
                 <div>
                   <h4 className="font-semibold text-emerald-900 mb-2">
                     Content Requirements:
