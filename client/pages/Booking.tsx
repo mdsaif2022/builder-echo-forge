@@ -109,6 +109,8 @@ export default function Booking() {
     tours.find((t) => t.id === parseInt(tourId || "1")) || tours[0];
 
   const [step, setStep] = useState(1);
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [bookingData, setBookingData] = useState({
     from: "",
     to: "",
@@ -162,6 +164,44 @@ export default function Booking() {
         ...prev,
         paymentProof: file,
       }));
+    }
+  };
+
+  const handleConfirmBooking = async () => {
+    // Validate required fields
+    if (!bookingData.transactionId && !bookingData.paymentProof) {
+      alert("Please provide either transaction ID or payment screenshot");
+      return;
+    }
+
+    setIsConfirming(true);
+
+    try {
+      // Simulate API call for booking confirmation
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Generate booking ID
+      const bookingId = `BD${Date.now()}`;
+
+      // In a real app, this would be an API call
+      console.log("Booking confirmed:", {
+        bookingId,
+        tour: selectedTour,
+        ...bookingData,
+      });
+
+      setBookingConfirmed(true);
+      setStep(5); // Move to confirmation step
+
+      // Simulate SMS confirmation
+      alert(
+        `🎉 Booking Confirmed!\n\nBooking ID: ${bookingId}\n\nYou will receive a confirmation SMS shortly at ${bookingData.customerInfo.phone}`,
+      );
+    } catch (error) {
+      alert("Booking failed. Please try again.");
+      console.error("Booking error:", error);
+    } finally {
+      setIsConfirming(false);
     }
   };
 
@@ -282,7 +322,7 @@ export default function Booking() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Progress Steps */}
         <div className="flex items-center justify-center mb-8">
-          {[1, 2, 3, 4].map((stepNumber) => (
+          {[1, 2, 3, 4, 5].map((stepNumber) => (
             <div key={stepNumber} className="flex items-center">
               <div
                 className={`
@@ -296,7 +336,7 @@ export default function Booking() {
               >
                 {step > stepNumber ? <Check className="w-5 h-5" /> : stepNumber}
               </div>
-              {stepNumber < 4 && (
+              {stepNumber < 5 && (
                 <div
                   className={`w-16 h-1 mx-2 ${step > stepNumber ? "bg-emerald-600" : "bg-gray-200"}`}
                 />
@@ -647,8 +687,23 @@ export default function Booking() {
                     >
                       Back
                     </Button>
-                    <Button className="flex-1 bg-emerald-600 hover:bg-emerald-700">
-                      Confirm Booking
+                    <Button
+                      className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                      onClick={handleConfirmBooking}
+                      disabled={
+                        isConfirming ||
+                        (!bookingData.transactionId &&
+                          !bookingData.paymentProof)
+                      }
+                    >
+                      {isConfirming ? (
+                        <div className="flex items-center">
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                          Processing...
+                        </div>
+                      ) : (
+                        "Confirm Booking"
+                      )}
                     </Button>
                   </div>
                 </CardContent>
