@@ -65,7 +65,7 @@ export default function Navigation() {
               className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800"
               asChild
             >
-              <Link to="/tours">Book Tour</Link>
+              <Link to="/booking">Book Tour</Link>
             </Button>
           </div>
 
@@ -115,7 +115,7 @@ export default function Navigation() {
                 className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700"
                 asChild
               >
-                <Link to="/tours" onClick={() => setIsMenuOpen(false)}>
+                <Link to="/booking" onClick={() => setIsMenuOpen(false)}>
                   Book Tour
                 </Link>
               </Button>
