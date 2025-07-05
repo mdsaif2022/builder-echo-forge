@@ -459,7 +459,7 @@ export default function BlogSubmission() {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <ImageIcon className="w-5 h-5 mr-2" />
-                    Images & Tags
+                    Media & Tags
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -518,6 +518,78 @@ export default function BlogSubmission() {
                         ))}
                       </div>
                     )}
+                  </div>
+
+                  {/* Video Upload */}
+                  <div>
+                    <Label htmlFor="videos">Videos (Optional, max 3)</Label>
+                    <div className="border-2 border-dashed border-purple-300 rounded-lg p-6 text-center">
+                      <input
+                        type="file"
+                        id="videos"
+                        accept="video/*"
+                        multiple
+                        onChange={handleVideoUpload}
+                        className="hidden"
+                      />
+                      <Video className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600 mb-2">
+                        Upload your enjoyable travel moments and experiences
+                      </p>
+                      <p className="text-xs text-gray-500 mb-3">
+                        Supports MP4, MOV, AVI, MKV, WebM (max 50MB each)
+                      </p>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          document.getElementById("videos")?.click()
+                        }
+                        className="border-purple-300 text-purple-600 hover:bg-purple-50"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Choose Videos
+                      </Button>
+                    </div>
+
+                    {/* Uploaded Videos */}
+                    {formData.videos.length > 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        {formData.videos.map((file, index) => (
+                          <div key={index} className="relative group">
+                            <div className="w-full h-32 bg-purple-100 rounded-lg flex flex-col items-center justify-center border-2 border-purple-200">
+                              <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center mb-2">
+                                <Play className="w-6 h-6 text-purple-600" />
+                              </div>
+                              <p className="text-xs text-purple-600 font-medium">
+                                Video File
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                {(file.size / (1024 * 1024)).toFixed(1)} MB
+                              </p>
+                            </div>
+                            <p className="text-xs text-gray-600 mt-1 truncate">
+                              {file.name}
+                            </p>
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              className="absolute -top-2 -right-2 w-6 h-6 rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={() => removeVideo(index)}
+                            >
+                              <X className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="mt-2 flex items-center text-xs text-gray-500">
+                      <Video className="w-3 h-3 mr-1" />
+                      <span>{formData.videos.length}/3 videos uploaded</span>
+                    </div>
                   </div>
 
                   {/* Tags */}
