@@ -57,6 +57,27 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Bangladesh tourism brand colors
+        emerald: {
+          50: "hsl(var(--emerald-50))",
+          100: "hsl(var(--emerald-100))",
+          500: "hsl(var(--emerald-500))",
+          600: "hsl(var(--emerald-600))",
+          700: "hsl(var(--emerald-700))",
+          900: "hsl(var(--emerald-900))",
+        },
+        orange: {
+          50: "hsl(var(--orange-50))",
+          100: "hsl(var(--orange-100))",
+          500: "hsl(var(--orange-500))",
+          600: "hsl(var(--orange-600))",
+        },
+        sky: {
+          50: "hsl(var(--sky-50))",
+          100: "hsl(var(--sky-100))",
+          500: "hsl(var(--sky-500))",
+          600: "hsl(var(--sky-600))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
