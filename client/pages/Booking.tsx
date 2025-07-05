@@ -120,6 +120,7 @@ export default function Booking() {
       email: "",
       phone: "",
     },
+    transactionId: "",
     paymentProof: null as File | null,
   });
 
@@ -134,6 +135,34 @@ export default function Booking() {
           ? [...prev.selectedSeats, seatId]
           : prev.selectedSeats,
     }));
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate file type
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/gif",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        alert("Please upload only image files (JPG, PNG, GIF)");
+        return;
+      }
+
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be less than 5MB");
+        return;
+      }
+
+      setBookingData((prev) => ({
+        ...prev,
+        paymentProof: file,
+      }));
+    }
   };
 
   const totalAmount = selectedTour.price * bookingData.persons;
@@ -527,7 +556,16 @@ export default function Booking() {
 
                   <div>
                     <Label htmlFor="transaction">Transaction ID</Label>
-                    <Input placeholder="Enter bKash transaction ID" />
+                    <Input
+                      value={bookingData.transactionId}
+                      onChange={(e) =>
+                        setBookingData((prev) => ({
+                          ...prev,
+                          transactionId: e.target.value,
+                        }))
+                      }
+                      placeholder="Enter bKash transaction ID"
+                    />
                   </div>
 
                   <div>
@@ -535,13 +573,69 @@ export default function Booking() {
                       Payment Screenshot (Optional)
                     </Label>
                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                      <input
+                        type="file"
+                        id="payment-proof"
+                        accept="image/*"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                      />
                       <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600">
-                        Upload payment screenshot
-                      </p>
-                      <Button variant="outline" size="sm" className="mt-2">
-                        Choose File
-                      </Button>
+                      {bookingData.paymentProof ? (
+                        <div className="space-y-2">
+                          <p className="text-sm text-green-600 font-medium">
+                            ✓ {bookingData.paymentProof.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Size:{" "}
+                            {(bookingData.paymentProof.size / 1024).toFixed(1)}{" "}
+                            KB
+                          </p>
+                          <div className="flex gap-2 justify-center">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                document
+                                  .getElementById("payment-proof")
+                                  ?.click()
+                              }
+                            >
+                              Change File
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() =>
+                                setBookingData((prev) => ({
+                                  ...prev,
+                                  paymentProof: null,
+                                }))
+                              }
+                            >
+                              Remove
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-sm text-gray-600 mb-2">
+                            Upload payment screenshot
+                          </p>
+                          <p className="text-xs text-gray-500 mb-3">
+                            Supports JPG, PNG, GIF (max 5MB)
+                          </p>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              document.getElementById("payment-proof")?.click()
+                            }
+                          >
+                            Choose File
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </div>
 
