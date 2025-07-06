@@ -606,6 +606,294 @@ export default function TourManagement() {
       )}
 
       <NewTourModal />
+
+      {/* Edit Tour Modal */}
+      {editingTour && (
+        <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit Tour Package</DialogTitle>
+              <DialogDescription>
+                Update the details of {editingTour.name}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Tour Name
+                  </label>
+                  <Input
+                    defaultValue={editingTour.name}
+                    onChange={(e) =>
+                      setEditingTour({ ...editingTour, name: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Duration
+                  </label>
+                  <Input
+                    defaultValue={editingTour.duration}
+                    onChange={(e) =>
+                      setEditingTour({
+                        ...editingTour,
+                        duration: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Max Participants
+                  </label>
+                  <Input
+                    type="number"
+                    defaultValue={editingTour.maxParticipants}
+                    onChange={(e) =>
+                      setEditingTour({
+                        ...editingTour,
+                        maxParticipants: parseInt(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Price (৳)
+                  </label>
+                  <Input
+                    type="number"
+                    defaultValue={editingTour.price}
+                    onChange={(e) =>
+                      setEditingTour({
+                        ...editingTour,
+                        price: parseInt(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Status
+                  </label>
+                  <Select
+                    defaultValue={editingTour.status}
+                    onValueChange={(value) =>
+                      setEditingTour({ ...editingTour, status: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="inactive">Inactive</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Description
+                  </label>
+                  <Textarea
+                    defaultValue={editingTour.description}
+                    onChange={(e) =>
+                      setEditingTour({
+                        ...editingTour,
+                        description: e.target.value,
+                      })
+                    }
+                    rows={6}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Current Highlights
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {editingTour.highlights?.map(
+                      (highlight: string, index: number) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="text-xs"
+                        >
+                          {highlight}
+                        </Badge>
+                      ),
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    What's Included
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {editingTour.includes?.map(
+                      (include: string, index: number) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="text-xs"
+                        >
+                          {include}
+                        </Badge>
+                      ),
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowEditModal(false)}>
+                Cancel
+              </Button>
+              <Button
+                className="bg-emerald-600 hover:bg-emerald-700"
+                onClick={() => {
+                  updateTour(editingTour.id, editingTour);
+                  setShowEditModal(false);
+                  setEditingTour(null);
+                }}
+              >
+                Save Changes
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Manage Pricing Modal */}
+      {editingTour && (
+        <Dialog open={showPricingModal} onOpenChange={setShowPricingModal}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Manage Pricing - {editingTour.name}</DialogTitle>
+              <DialogDescription>
+                Update pricing and booking settings for this tour package
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-6">
+              {/* Current Pricing */}
+              <div className="bg-emerald-50 p-4 rounded-lg">
+                <h3 className="font-semibold text-emerald-900 mb-3">
+                  Current Pricing
+                </h3>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-gray-600">Base Price:</span>
+                    <p className="font-semibold text-xl">
+                      ৳{editingTour.price?.toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Total Bookings:</span>
+                    <p className="font-semibold">{editingTour.bookings}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Price Updates */}
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    New Base Price (৳)
+                  </label>
+                  <Input
+                    type="number"
+                    defaultValue={editingTour.price}
+                    onChange={(e) =>
+                      setEditingTour({
+                        ...editingTour,
+                        price: parseInt(e.target.value),
+                      })
+                    }
+                    placeholder="Enter new price"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Discount Percentage (Optional)
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder="e.g., 10 for 10% discount"
+                    max="50"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Early Bird Price (৳)
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder="Special early booking price"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Group Discount (5+ people)
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder="Discount amount per person"
+                  />
+                </div>
+              </div>
+
+              {/* Pricing Notes */}
+              <div className="bg-yellow-50 p-4 rounded-lg">
+                <h4 className="font-medium text-yellow-900 mb-2">
+                  Pricing Guidelines:
+                </h4>
+                <ul className="text-sm text-yellow-800 space-y-1">
+                  <li>• Consider seasonal demand when setting prices</li>
+                  <li>• Early bird pricing can boost advance bookings</li>
+                  <li>• Group discounts encourage larger bookings</li>
+                  <li>• Price changes affect all future bookings</li>
+                </ul>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setShowPricingModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="bg-emerald-600 hover:bg-emerald-700"
+                onClick={() => {
+                  updateTour(editingTour.id, { price: editingTour.price });
+                  setShowPricingModal(false);
+                  setEditingTour(null);
+                }}
+              >
+                Update Pricing
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
