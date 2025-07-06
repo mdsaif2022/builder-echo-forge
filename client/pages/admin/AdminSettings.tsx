@@ -416,6 +416,10 @@ export default function AdminSettings() {
                   Content Guidelines
                 </label>
                 <Textarea
+                  value={settings.contentGuidelines}
+                  onChange={(e) =>
+                    handleSettingChange("contentGuidelines", e.target.value)
+                  }
                   placeholder="Enter content submission guidelines..."
                   rows={4}
                 />
