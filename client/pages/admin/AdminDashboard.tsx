@@ -66,64 +66,52 @@ export default function AdminDashboard() {
     },
   ];
 
-const recentBookings = [
-  {
-    id: 1,
-    user: "Sarah Ahmed",
-    tour: "Sundarbans Adventure",
-    date: "2024-01-15",
-    amount: "৳15,000",
-    status: "confirmed",
-  },
-  {
-    id: 2,
-    user: "Rahul Khan",
-    tour: "Cox's Bazar Getaway",
-    date: "2024-01-14",
-    amount: "৳8,000",
-    status: "pending",
-  },
-  {
-    id: 3,
-    user: "Maya Begum",
-    tour: "Srimangal Tea Tour",
-    date: "2024-01-13",
-    amount: "৳6,500",
-    status: "confirmed",
-  },
-  {
-    id: 4,
-    user: "David Smith",
-    tour: "Historical Dhaka",
-    date: "2024-01-12",
-    amount: "৳3,500",
-    status: "confirmed",
-  },
-];
+  const recentBookings = [
+    {
+      id: 1,
+      user: "Sarah Ahmed",
+      tour: "Sundarbans Adventure",
+      date: "2024-01-15",
+      amount: "৳15,000",
+      status: "confirmed",
+    },
+    {
+      id: 2,
+      user: "Rahul Khan",
+      tour: "Cox's Bazar Getaway",
+      date: "2024-01-14",
+      amount: "৳8,000",
+      status: "pending",
+    },
+    {
+      id: 3,
+      user: "Maya Begum",
+      tour: "Srimangal Tea Tour",
+      date: "2024-01-13",
+      amount: "৳6,500",
+      status: "confirmed",
+    },
+    {
+      id: 4,
+      user: "David Smith",
+      tour: "Historical Dhaka",
+      date: "2024-01-12",
+      amount: "৳3,500",
+      status: "confirmed",
+    },
+  ];
 
-const pendingBlogs = [
-  {
-    id: 1,
-    title: "My Journey Through the Sundarbans",
-    author: "John Doe",
-    date: "2024-01-15",
-    status: "pending",
-  },
-  {
-    id: 2,
-    title: "Tea Gardens and Morning Mist",
-    author: "Jane Smith",
-    date: "2024-01-14",
-    status: "pending",
-  },
-  {
-    id: 3,
-    title: "Cox's Bazar Sunset Experience",
-    author: "Mike Johnson",
-    date: "2024-01-13",
-    status: "pending",
-  },
-];
+  // Get recent blog posts that are pending review
+  const pendingBlogs = blogPosts
+    .filter(post => post.status === "pending")
+    .slice(0, 3)
+    .map(post => ({
+      id: post.id,
+      title: post.title,
+      author: post.author,
+      date: post.date,
+      status: "pending",
+    }));
 
 export default function AdminDashboard() {
   return (
