@@ -21,11 +21,14 @@ export default function AdminDashboard() {
   const { blogPosts } = useBlogs();
   const { settings } = useSettings();
 
-  // Mock user data - in a real app this would come from a user context
-  const totalUsers = 2847;
+  // Calculate dynamic statistics
+  const totalUsers = 2847; // Mock data - in real app would come from user context
   const totalBookings = tours.reduce((sum, tour) => sum + tour.bookings, 0);
-  const totalRevenue = tours.reduce((sum, tour) => sum + (tour.price * tour.bookings), 0);
-  const activeTours = tours.filter(tour => tour.status === "active").length;
+  const totalRevenue = tours.reduce(
+    (sum, tour) => sum + tour.price * tour.bookings,
+    0,
+  );
+  const activeTours = tours.filter((tour) => tour.status === "active").length;
 
   const stats = [
     {
@@ -66,6 +69,7 @@ export default function AdminDashboard() {
     },
   ];
 
+  // Mock recent bookings data
   const recentBookings = [
     {
       id: 1,
@@ -101,11 +105,11 @@ export default function AdminDashboard() {
     },
   ];
 
-  // Get recent blog posts that are pending review
+  // Get real pending blog posts
   const pendingBlogs = blogPosts
-    .filter(post => post.status === "pending")
+    .filter((post) => post.status === "pending")
     .slice(0, 3)
-    .map(post => ({
+    .map((post) => ({
       id: post.id,
       title: post.title,
       author: post.author,
@@ -113,14 +117,13 @@ export default function AdminDashboard() {
       status: "pending",
     }));
 
-export default function AdminDashboard() {
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-600 mt-2">
-          Welcome back! Here's what's happening with Explore BD today.
+          Welcome back! Here's what's happening with {settings.siteName} today.
         </p>
       </div>
 
@@ -166,158 +169,149 @@ export default function AdminDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button asChild className="w-full justify-start" variant="outline">
-              <Link to="/admin/tours/new">
+            <Link to="/admin/tours/new">
+              <Button className="w-full justify-start bg-emerald-600 hover:bg-emerald-700">
                 <MapPin className="w-4 h-4 mr-2" />
-                Add New Tour Package
-              </Link>
-            </Button>
-            <Button asChild className="w-full justify-start" variant="outline">
-              <Link to="/admin/users">
+                Add New Tour
+              </Button>
+            </Link>
+            <Link to="/admin/users">
+              <Button variant="outline" className="w-full justify-start">
                 <Users className="w-4 h-4 mr-2" />
                 Manage Users
-              </Link>
-            </Button>
-            <Button asChild className="w-full justify-start" variant="outline">
-              <Link to="/admin/blogs">
+              </Button>
+            </Link>
+            <Link to="/admin/blogs">
+              <Button variant="outline" className="w-full justify-start">
                 <FileText className="w-4 h-4 mr-2" />
-                Review Pending Blogs
-              </Link>
-            </Button>
+                Review Blog Posts
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 
         {/* Recent Bookings */}
-        <Card className="lg:col-span-2">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               Recent Bookings
-              <Link
-                to="/admin/bookings"
-                className="text-sm text-emerald-600 hover:text-emerald-700"
-              >
-                View All
-              </Link>
+              <Calendar className="w-5 h-5 text-blue-600" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentBookings.map((booking) => (
-                <div
-                  key={booking.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-                >
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">{booking.user}</p>
-                    <p className="text-sm text-gray-600">{booking.tour}</p>
-                    <p className="text-xs text-gray-500">{booking.date}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold text-gray-900">
-                      {booking.amount}
-                    </p>
-                    <span
-                      className={`inline-flex px-2 py-1 text-xs rounded-full ${
-                        booking.status === "confirmed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {booking.status}
-                    </span>
-                  </div>
+          <CardContent className="space-y-4">
+            {recentBookings.slice(0, 3).map((booking) => (
+              <div
+                key={booking.id}
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+              >
+                <div>
+                  <p className="font-medium text-sm">{booking.user}</p>
+                  <p className="text-xs text-gray-600">{booking.tour}</p>
+                  <p className="text-xs text-gray-500">{booking.date}</p>
                 </div>
-              ))}
-            </div>
+                <div className="text-right">
+                  <p className="font-semibold text-sm">{booking.amount}</p>
+                  <span
+                    className={`inline-block px-2 py-1 rounded-full text-xs ${
+                      booking.status === "confirmed"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {booking.status}
+                  </span>
+                </div>
+              </div>
+            ))}
+            <Link to="/admin/tours">
+              <Button variant="outline" size="sm" className="w-full">
+                View All Bookings
+              </Button>
+            </Link>
           </CardContent>
         </Card>
-      </div>
 
-      {/* Bottom Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Pending Blog Reviews */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              Pending Blog Reviews
-              <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                {pendingBlogs.length}
-              </span>
+              Pending Reviews
+              <Eye className="w-5 h-5 text-orange-600" />
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {pendingBlogs.map((blog) => (
-                <div
-                  key={blog.id}
-                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
-                >
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900 line-clamp-1">
+          <CardContent className="space-y-4">
+            {pendingBlogs.length > 0 ? (
+              <>
+                {pendingBlogs.map((blog) => (
+                  <div
+                    key={blog.id}
+                    className="p-3 bg-orange-50 rounded-lg border border-orange-200"
+                  >
+                    <p className="font-medium text-sm line-clamp-2">
                       {blog.title}
                     </p>
-                    <p className="text-sm text-gray-600">by {blog.author}</p>
+                    <p className="text-xs text-gray-600 mt-1">
+                      by {blog.author}
+                    </p>
                     <p className="text-xs text-gray-500">{blog.date}</p>
                   </div>
-                  <div className="flex space-x-2">
-                    <Button size="sm" variant="outline">
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="bg-emerald-600 hover:bg-emerald-700"
-                    >
-                      Review
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4">
-              <Button asChild className="w-full" variant="outline">
-                <Link to="/admin/blogs">View All Pending Reviews</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* System Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle>System Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Total Page Views</span>
-                <span className="font-semibold">24,853</span>
+                ))}
+                <Link to="/admin/blogs">
+                  <Button variant="outline" size="sm" className="w-full">
+                    Review All Posts
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-sm text-gray-500">No pending reviews</p>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Active Sessions</span>
-                <span className="font-semibold">142</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Average Rating</span>
-                <div className="flex items-center">
-                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                  <span className="font-semibold ml-1">4.8</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Conversion Rate</span>
-                <span className="font-semibold text-green-600">12.4%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Server Status</span>
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  <span className="text-sm text-green-600">Online</span>
-                </div>
-              </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>
+
+      {/* System Overview */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Star className="w-5 h-5 mr-2" />
+            System Overview
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-4 bg-blue-50 rounded-lg">
+              <div className="text-2xl font-bold text-blue-600 mb-2">
+                {tours.length}
+              </div>
+              <p className="text-sm text-blue-800">Total Tours</p>
+            </div>
+            <div className="text-center p-4 bg-green-50 rounded-lg">
+              <div className="text-2xl font-bold text-green-600 mb-2">
+                {blogPosts.filter((post) => post.status === "approved").length}
+              </div>
+              <p className="text-sm text-green-800">Published Posts</p>
+            </div>
+            <div className="text-center p-4 bg-purple-50 rounded-lg">
+              <div className="text-2xl font-bold text-purple-600 mb-2">
+                {blogPosts.reduce((sum, post) => sum + post.views, 0)}
+              </div>
+              <p className="text-sm text-purple-800">Total Views</p>
+            </div>
+          </div>
+
+          <div className="mt-6 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-600">Server Status</span>
+              <div className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                <span className="text-sm text-green-600">Online</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
