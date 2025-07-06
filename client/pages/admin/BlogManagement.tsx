@@ -208,17 +208,39 @@ export default function BlogManagement() {
                     Admin Notes (Optional)
                   </label>
                   <Textarea
+                    value={adminNotes}
+                    onChange={(e) => setAdminNotes(e.target.value)}
                     placeholder="Add any notes or feedback for the author..."
                     rows={3}
                   />
                 </div>
 
                 <div className="flex space-x-3">
-                  <Button className="bg-green-600 hover:bg-green-700 flex-1">
+                  <Button
+                    className="bg-green-600 hover:bg-green-700 flex-1"
+                    onClick={() => {
+                      approveBlogPost(selectedPost.id, adminNotes);
+                      setShowReviewModal(false);
+                      setSelectedPost(null);
+                      setAdminNotes("");
+                    }}
+                  >
                     <Check className="w-4 h-4 mr-2" />
                     Approve Post
                   </Button>
-                  <Button variant="destructive" className="flex-1">
+                  <Button
+                    variant="destructive"
+                    className="flex-1"
+                    onClick={() => {
+                      const reason = prompt("Enter rejection reason:");
+                      if (reason) {
+                        rejectBlogPost(selectedPost.id, reason, adminNotes);
+                        setShowReviewModal(false);
+                        setSelectedPost(null);
+                        setAdminNotes("");
+                      }
+                    }}
+                  >
                     <X className="w-4 h-4 mr-2" />
                     Reject Post
                   </Button>
