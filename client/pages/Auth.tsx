@@ -349,32 +349,79 @@ export default function Auth() {
 
                 <TabsContent value="signup" className="space-y-4 mt-6">
                   {/* Sign Up Form */}
-                  <div className="space-y-4">
+                  <form onSubmit={handleSignup} className="space-y-4">
+                    {/* Error Display */}
+                    {errors.general && (
+                      <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                        <p className="text-red-600 text-sm">{errors.general}</p>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-2 gap-4">
-                      <Input
-                        placeholder="First Name"
-                        className="border-emerald-200 focus:border-emerald-500"
-                      />
-                      <Input
-                        placeholder="Last Name"
-                        className="border-emerald-200 focus:border-emerald-500"
-                      />
+                      <div>
+                        <Input
+                          placeholder="First Name"
+                          value={signupData.firstName}
+                          onChange={(e) =>
+                            setSignupData({
+                              ...signupData,
+                              firstName: e.target.value,
+                            })
+                          }
+                          className={`border-emerald-200 focus:border-emerald-500 ${
+                            errors.firstName ? "border-red-500" : ""
+                          }`}
+                        />
+                        {errors.firstName && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.firstName}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <Input
+                          placeholder="Last Name"
+                          value={signupData.lastName}
+                          onChange={(e) =>
+                            setSignupData({
+                              ...signupData,
+                              lastName: e.target.value,
+                            })
+                          }
+                          className={`border-emerald-200 focus:border-emerald-500 ${
+                            errors.lastName ? "border-red-500" : ""
+                          }`}
+                        />
+                        {errors.lastName && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.lastName}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
                     <div className="flex gap-2">
                       <Button
+                        type="button"
                         variant={authMethod === "phone" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setAuthMethod("phone")}
+                        onClick={() => {
+                          setAuthMethod("phone");
+                          setErrors({});
+                        }}
                         className="flex-1"
                       >
                         <Phone className="w-4 h-4 mr-2" />
                         Phone
                       </Button>
                       <Button
+                        type="button"
                         variant={authMethod === "email" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setAuthMethod("email")}
+                        onClick={() => {
+                          setAuthMethod("email");
+                          setErrors({});
+                        }}
                         className="flex-1"
                       >
                         <Mail className="w-4 h-4 mr-2" />
@@ -382,35 +429,114 @@ export default function Auth() {
                       </Button>
                     </div>
 
-                    {authMethod === "phone" ? (
+                    <div>
+                      {authMethod === "phone" ? (
+                        <Input
+                          placeholder="Enter your phone number"
+                          value={signupData.phoneOrEmail}
+                          onChange={(e) =>
+                            setSignupData({
+                              ...signupData,
+                              phoneOrEmail: e.target.value,
+                            })
+                          }
+                          className={`border-emerald-200 focus:border-emerald-500 ${
+                            errors.phoneOrEmail ? "border-red-500" : ""
+                          }`}
+                        />
+                      ) : (
+                        <Input
+                          type="email"
+                          placeholder="Enter your email address"
+                          value={signupData.phoneOrEmail}
+                          onChange={(e) =>
+                            setSignupData({
+                              ...signupData,
+                              phoneOrEmail: e.target.value,
+                            })
+                          }
+                          className={`border-emerald-200 focus:border-emerald-500 ${
+                            errors.phoneOrEmail ? "border-red-500" : ""
+                          }`}
+                        />
+                      )}
+                      {errors.phoneOrEmail && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.phoneOrEmail}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="relative">
                       <Input
-                        placeholder="Enter your phone number"
-                        className="border-emerald-200 focus:border-emerald-500"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Create password"
+                        value={signupData.password}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            password: e.target.value,
+                          })
+                        }
+                        className={`border-emerald-200 focus:border-emerald-500 pr-10 ${
+                          errors.password ? "border-red-500" : ""
+                        }`}
                       />
-                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4 text-gray-400" />
+                        ) : (
+                          <Eye className="w-4 h-4 text-gray-400" />
+                        )}
+                      </button>
+                      {errors.password && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
                       <Input
-                        type="email"
-                        placeholder="Enter your email address"
-                        className="border-emerald-200 focus:border-emerald-500"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Confirm password"
+                        value={signupData.confirmPassword}
+                        onChange={(e) =>
+                          setSignupData({
+                            ...signupData,
+                            confirmPassword: e.target.value,
+                          })
+                        }
+                        className={`border-emerald-200 focus:border-emerald-500 ${
+                          errors.confirmPassword ? "border-red-500" : ""
+                        }`}
                       />
-                    )}
+                      {errors.confirmPassword && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.confirmPassword}
+                        </p>
+                      )}
+                    </div>
 
-                    <Input
-                      type="password"
-                      placeholder="Create password"
-                      className="border-emerald-200 focus:border-emerald-500"
-                    />
-
-                    <Input
-                      type="password"
-                      placeholder="Confirm password"
-                      className="border-emerald-200 focus:border-emerald-500"
-                    />
-
-                    <Button className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800">
-                      Create Account
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800"
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center">
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                          Creating Account...
+                        </div>
+                      ) : (
+                        "Create Account"
+                      )}
                     </Button>
-                  </div>
+                  </form>
                 </TabsContent>
               </Tabs>
 
