@@ -52,12 +52,14 @@ import {
 } from "lucide-react";
 
 export default function TourManagement() {
-  const { tours, deleteTour } = useTours();
+  const { tours, deleteTour, updateTour } = useTours();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedTour, setSelectedTour] = useState<any>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showPricingModal, setShowPricingModal] = useState(false);
+  const [editingTour, setEditingTour] = useState<any>(null);
 
   const filteredTours = tours.filter((tour) => {
     const matchesSearch =
@@ -423,11 +425,21 @@ export default function TourManagement() {
                             <Eye className="w-4 h-4 mr-2" />
                             View Details
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setEditingTour(tour);
+                              setShowEditModal(true);
+                            }}
+                          >
                             <Edit className="w-4 h-4 mr-2" />
                             Edit Tour
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setEditingTour(tour);
+                              setShowPricingModal(true);
+                            }}
+                          >
                             <DollarSign className="w-4 h-4 mr-2" />
                             Manage Pricing
                           </DropdownMenuItem>
