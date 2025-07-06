@@ -254,7 +254,7 @@ export default function UserManagement() {
                   Pending Verification
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {users.filter((u) => u.status === "pending").length}
+                  {userList.filter((u) => u.status === "pending").length}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-yellow-100">
