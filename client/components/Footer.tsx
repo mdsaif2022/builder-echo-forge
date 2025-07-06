@@ -7,6 +7,7 @@ import {
   Instagram,
   Twitter,
 } from "lucide-react";
+import { useSettings } from "../contexts/SettingsContext";
 
 export default function Footer() {
   return (
