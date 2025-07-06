@@ -182,25 +182,45 @@ export default function AdminDashboard() {
             {recentBookings.slice(0, 3).map((booking) => (
               <div
                 key={booking.id}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                className="p-4 bg-gray-50 rounded-lg border border-gray-200"
               >
-                <div>
-                  <p className="font-medium text-sm">{booking.user}</p>
-                  <p className="text-xs text-gray-600">{booking.tour}</p>
-                  <p className="text-xs text-gray-500">{booking.date}</p>
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <p className="font-medium text-sm">{booking.user}</p>
+                    <p className="text-xs text-gray-600">{booking.tour}</p>
+                    <p className="text-xs text-gray-500">
+                      {booking.date} • {booking.persons} person
+                      {booking.persons > 1 ? "s" : ""}
+                    </p>
+                    <p className="text-xs text-blue-600">
+                      Seats: {booking.seats} • {booking.phone}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-sm">{booking.amount}</p>
+                    <span
+                      className={`inline-block px-2 py-1 rounded-full text-xs ${
+                        booking.status === "confirmed"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {booking.status}
+                    </span>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold text-sm">{booking.amount}</p>
-                  <span
-                    className={`inline-block px-2 py-1 rounded-full text-xs ${
-                      booking.status === "confirmed"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {booking.status}
-                  </span>
-                </div>
+                {booking.notes && (
+                  <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-200">
+                    <p className="text-xs font-medium text-blue-800 mb-1">
+                      User Notes:
+                    </p>
+                    <p className="text-xs text-blue-700 leading-relaxed">
+                      {booking.notes.length > 120
+                        ? `${booking.notes.substring(0, 120)}...`
+                        : booking.notes}
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
             <Link to="/admin/tours">
