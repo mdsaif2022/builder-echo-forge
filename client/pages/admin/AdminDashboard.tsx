@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { useTours } from "@/contexts/TourContext";
 import { useBlogs } from "@/contexts/BlogContext";
 import { useSettings } from "@/contexts/SettingsContext";
+import { useBookings } from "@/contexts/BookingContext";
 
 export default function AdminDashboard() {
   const { tours } = useTours();
