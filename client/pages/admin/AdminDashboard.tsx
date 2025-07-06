@@ -12,6 +12,9 @@ import {
   Plus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTours } from "@/contexts/TourContext";
+import { useBlogs } from "@/contexts/BlogContext";
+import { useSettings } from "@/contexts/SettingsContext";
 
 const stats = [
   {
