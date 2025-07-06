@@ -151,7 +151,7 @@ export default function UserManagement() {
     setShowUserModal(true);
   };
 
-  const filteredUsers = users.filter((user) => {
+  const filteredUsers = userList.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
