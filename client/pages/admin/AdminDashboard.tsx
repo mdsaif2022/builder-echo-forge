@@ -115,7 +115,7 @@ export default function AdminDashboard() {
     .map((post) => ({
       id: post.id,
       title: post.title,
-      author: post.author,
+      author: post.author.name,
       date: post.date,
       status: "pending",
     }));
