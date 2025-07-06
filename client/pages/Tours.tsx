@@ -4,8 +4,12 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Clock, Users, Star } from "lucide-react";
+import { useTours } from "@/contexts/TourContext";
 
 export default function Tours() {
+  const { getActiveTours } = useTours();
+  const tours = getActiveTours();
+
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -27,61 +31,54 @@ export default function Tours() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Sample tour cards */}
-            {Array.from({ length: 6 }).map((_, index) => (
+            {tours.map((tour) => (
               <Card
-                key={index}
+                key={tour.id}
                 className="overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <div className="h-48 bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-6xl">
-                  {["🌿", "🏖️", "🍃", "🏛️", "⛰️", "🚤"][index]}
+                  {tour.image}
                 </div>
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="text-xl font-bold text-emerald-900">
-                      {
-                        [
-                          "Sundarbans Adventure",
-                          "Cox's Bazar Getaway",
-                          "Srimangal Tea Tour",
-                          "Historical Dhaka",
-                          "Bandarban Hills",
-                          "River Cruise",
-                        ][index]
-                      }
+                      {tour.name}
                     </h3>
                     <div className="flex items-center space-x-1">
                       <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
-                      <span className="text-sm font-semibold">4.8</span>
+                      <span className="text-sm font-semibold">
+                        {tour.rating}
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex items-center text-emerald-600 mb-3 space-x-4">
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 mr-1" />
-                      <span className="text-sm">3 Days</span>
+                      <span className="text-sm">{tour.duration}</span>
                     </div>
                     <div className="flex items-center">
                       <Users className="w-4 h-4 mr-1" />
-                      <span className="text-sm">Max 12</span>
+                      <span className="text-sm">
+                        Max {tour.maxParticipants}
+                      </span>
                     </div>
                   </div>
 
-                  <p className="text-gray-600 mb-4 text-sm">
-                    Experience the authentic beauty and culture of Bangladesh
-                    with our expert guides.
+                  <p className="text-gray-600 mb-4 text-sm line-clamp-2">
+                    {tour.description}
                   </p>
 
                   <div className="flex justify-between items-center">
                     <div className="text-2xl font-bold text-emerald-700">
-                      ৳{(8000 + index * 2000).toLocaleString()}
+                      ৳{tour.price.toLocaleString()}
                     </div>
                     <Button
                       size="sm"
                       className="bg-gradient-to-r from-emerald-600 to-emerald-700"
                       asChild
                     >
-                      <Link to={`/booking?tour=${index + 1}`}>Book Now</Link>
+                      <Link to={`/booking?tour=${tour.id}`}>Book Now</Link>
                     </Button>
                   </div>
                 </CardContent>
