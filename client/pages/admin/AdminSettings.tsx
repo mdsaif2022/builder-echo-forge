@@ -44,6 +44,14 @@ export default function AdminSettings() {
     emailNotifications: true,
     smsNotifications: true,
     maintenanceMode: false,
+    contentGuidelines:
+      "Please ensure your content is family-friendly and relevant to Bangladesh tourism. Include high-quality images and provide accurate information about destinations.",
+    bkashNumber: "+880 1700-000000",
+    smsApiKey: "",
+    defaultUserRole: "user",
+    passwordMinLength: "8",
+    systemTimezone: "asia-dhaka",
+    dateFormat: "dd-mm-yyyy",
   });
 
   const [siteLogo, setSiteLogo] = useState<File | null>(null);
