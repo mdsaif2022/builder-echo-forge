@@ -16,44 +16,55 @@ import { useTours } from "@/contexts/TourContext";
 import { useBlogs } from "@/contexts/BlogContext";
 import { useSettings } from "@/contexts/SettingsContext";
 
-const stats = [
-  {
-    title: "Total Users",
-    value: "2,847",
-    change: "+12%",
-    trend: "up",
-    icon: Users,
-    color: "text-blue-600",
-    bgColor: "bg-blue-100",
-  },
-  {
-    title: "Active Tours",
-    value: "24",
-    change: "+3",
-    trend: "up",
-    icon: MapPin,
-    color: "text-emerald-600",
-    bgColor: "bg-emerald-100",
-  },
-  {
-    title: "Total Bookings",
-    value: "1,392",
-    change: "+8%",
-    trend: "up",
-    icon: Calendar,
-    color: "text-orange-600",
-    bgColor: "bg-orange-100",
-  },
-  {
-    title: "Revenue",
-    value: "৳8,47,500",
-    change: "+15%",
-    trend: "up",
-    icon: DollarSign,
-    color: "text-green-600",
-    bgColor: "bg-green-100",
-  },
-];
+export default function AdminDashboard() {
+  const { tours } = useTours();
+  const { blogPosts } = useBlogs();
+  const { settings } = useSettings();
+
+  // Mock user data - in a real app this would come from a user context
+  const totalUsers = 2847;
+  const totalBookings = tours.reduce((sum, tour) => sum + tour.bookings, 0);
+  const totalRevenue = tours.reduce((sum, tour) => sum + (tour.price * tour.bookings), 0);
+  const activeTours = tours.filter(tour => tour.status === "active").length;
+
+  const stats = [
+    {
+      title: "Total Users",
+      value: totalUsers.toLocaleString(),
+      change: "+12%",
+      trend: "up",
+      icon: Users,
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
+    },
+    {
+      title: "Active Tours",
+      value: activeTours.toString(),
+      change: `+${activeTours > 20 ? 3 : 1}`,
+      trend: "up",
+      icon: MapPin,
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-100",
+    },
+    {
+      title: "Total Bookings",
+      value: totalBookings.toLocaleString(),
+      change: "+8%",
+      trend: "up",
+      icon: Calendar,
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
+    },
+    {
+      title: "Revenue",
+      value: `৳${totalRevenue.toLocaleString()}`,
+      change: "+15%",
+      trend: "up",
+      icon: DollarSign,
+      color: "text-green-600",
+      bgColor: "bg-green-100",
+    },
+  ];
 
 const recentBookings = [
   {
