@@ -2,59 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Clock, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const destinations = [
-  {
-    id: 1,
-    name: "Sundarbans Mangrove Forest",
-    location: "Khulna Division",
-    image: "🌿",
-    description:
-      "World's largest mangrove forest and home to the Royal Bengal Tiger",
-    duration: "3 Days",
-    rating: 4.9,
-    price: "৳15,000",
-    highlights: ["Royal Bengal Tiger", "Boat Safari", "Mangrove Ecosystem"],
-  },
-  {
-    id: 2,
-    name: "Cox's Bazar Beach",
-    location: "Chittagong Division",
-    image: "🏖️",
-    description:
-      "World's longest natural sea beach with golden sand and stunning sunsets",
-    duration: "2 Days",
-    rating: 4.8,
-    price: "৳8,000",
-    highlights: ["Longest Sea Beach", "Sunset Views", "Water Sports"],
-  },
-  {
-    id: 3,
-    name: "Srimangal Tea Gardens",
-    location: "Sylhet Division",
-    image: "🍃",
-    description:
-      "Rolling hills covered in lush tea gardens and pristine natural beauty",
-    duration: "2 Days",
-    rating: 4.7,
-    price: "৳6,500",
-    highlights: ["Tea Plantations", "Lawachara Forest", "Tribal Culture"],
-  },
-  {
-    id: 4,
-    name: "Historical Dhaka",
-    location: "Dhaka Division",
-    image: "🏛️",
-    description:
-      "Ancient architecture, vibrant markets, and rich Mughal heritage",
-    duration: "1 Day",
-    rating: 4.6,
-    price: "৳3,500",
-    highlights: ["Lalbagh Fort", "Old Dhaka", "Mughal Architecture"],
-  },
-];
+import { useTours } from "@/contexts/TourContext";
 
 export default function FeaturedDestinations() {
+  const { getActiveTours } = useTours();
+  const destinations = getActiveTours().slice(0, 4); // Show first 4 active tours
+
   return (
     <section className="py-20 bg-gradient-to-b from-emerald-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +37,7 @@ export default function FeaturedDestinations() {
 
                 {/* Price Badge */}
                 <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full font-bold text-sm">
-                  {destination.price}
+                  ৳{destination.price.toLocaleString()}
                 </div>
 
                 {/* Rating */}
