@@ -114,20 +114,21 @@ export default function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" />
                 <div className="text-emerald-200 text-sm">
-                  <p>123 Gulshan Avenue</p>
-                  <p>Dhaka 1212, Bangladesh</p>
+                  {settings.address.split(",").map((line, index) => (
+                    <p key={index}>{line.trim()}</p>
+                  ))}
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-orange-400 flex-shrink-0" />
                 <span className="text-emerald-200 text-sm">
-                  +880 1700-000000
+                  {settings.phone}
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-orange-400 flex-shrink-0" />
                 <span className="text-emerald-200 text-sm">
-                  info@explorebd.com
+                  {settings.contactEmail}
                 </span>
               </div>
             </div>
