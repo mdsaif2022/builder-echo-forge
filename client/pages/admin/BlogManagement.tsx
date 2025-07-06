@@ -488,27 +488,64 @@ export default function BlogManagement() {
                             <Eye className="w-4 h-4 mr-2" />
                             Review Post
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              // Edit functionality - could open an edit modal
+                              console.log("Edit post:", post.id);
+                            }}
+                          >
                             <Edit className="w-4 h-4 mr-2" />
                             Edit Post
                           </DropdownMenuItem>
                           {post.status === "pending" && (
                             <>
-                              <DropdownMenuItem className="text-green-600">
+                              <DropdownMenuItem
+                                className="text-green-600"
+                                onClick={() => {
+                                  approveBlogPost(post.id);
+                                }}
+                              >
                                 <Check className="w-4 h-4 mr-2" />
                                 Approve
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="text-red-600">
+                              <DropdownMenuItem
+                                className="text-red-600"
+                                onClick={() => {
+                                  const reason = prompt(
+                                    "Enter rejection reason:",
+                                  );
+                                  if (reason) {
+                                    rejectBlogPost(post.id, reason);
+                                  }
+                                }}
+                              >
                                 <X className="w-4 h-4 mr-2" />
                                 Reject
                               </DropdownMenuItem>
                             </>
                           )}
-                          <DropdownMenuItem className="text-orange-600">
+                          <DropdownMenuItem
+                            className="text-orange-600"
+                            onClick={() => {
+                              // Report issue functionality
+                              console.log("Report issue for post:", post.id);
+                            }}
+                          >
                             <Flag className="w-4 h-4 mr-2" />
                             Report Issue
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
+                          <DropdownMenuItem
+                            className="text-red-600"
+                            onClick={() => {
+                              if (
+                                confirm(
+                                  `Are you sure you want to delete "${post.title}"?`,
+                                )
+                              ) {
+                                deleteBlogPost(post.id);
+                              }
+                            }}
+                          >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete Post
                           </DropdownMenuItem>
