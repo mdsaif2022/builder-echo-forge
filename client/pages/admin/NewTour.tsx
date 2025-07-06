@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTours } from "@/contexts/TourContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,7 @@ import {
 
 export default function NewTour() {
   const navigate = useNavigate();
+  const { addTour } = useTours();
   const [isSaving, setIsSaving] = useState(false);
   const [tourData, setTourData] = useState({
     name: "",
@@ -175,9 +177,24 @@ export default function NewTour() {
 
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      console.log("New tour created:", tourData);
+      // Add the tour to the context
+      const newTour = addTour({
+        name: tourData.name,
+        location: tourData.location,
+        destination: tourData.destination,
+        duration: tourData.duration,
+        maxParticipants: parseInt(tourData.maxParticipants),
+        price: parseInt(tourData.price),
+        status: tourData.status as "active" | "draft" | "inactive",
+        image: "📍", // Default icon for now
+        description: tourData.description,
+        highlights: tourData.highlights,
+        includes: tourData.includes,
+      });
+
+      console.log("New tour created:", newTour);
 
       // Navigate back to tours management
       navigate("/admin/tours");
