@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TourProvider } from "./contexts/TourContext";
 import { BlogProvider } from "./contexts/BlogContext";
 import { SettingsProvider } from "./contexts/SettingsContext";
+import { BookingProvider } from "./contexts/BookingContext";
 import Index from "./pages/Index";
 import Tours from "./pages/Tours";
 import Blog from "./pages/Blog";
