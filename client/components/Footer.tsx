@@ -23,8 +23,10 @@ export default function Footer() {
                 <MapPin className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Explore BD</h3>
-                <p className="text-sm text-emerald-300">Discover Bangladesh</p>
+                <h3 className="text-xl font-bold">{settings.siteName}</h3>
+                <p className="text-sm text-emerald-300">
+                  {settings.siteDescription}
+                </p>
               </div>
             </div>
             <p className="text-emerald-200 text-sm leading-relaxed">
