@@ -306,7 +306,12 @@ export default function AdminSettings() {
                   <label className="text-sm font-medium text-gray-600 mb-2 block">
                     Default User Role
                   </label>
-                  <Select defaultValue="user">
+                  <Select
+                    value={settings.defaultUserRole}
+                    onValueChange={(value) =>
+                      handleSettingChange("defaultUserRole", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -321,7 +326,12 @@ export default function AdminSettings() {
                   <label className="text-sm font-medium text-gray-600 mb-2 block">
                     Password Minimum Length
                   </label>
-                  <Select defaultValue="8">
+                  <Select
+                    value={settings.passwordMinLength}
+                    onValueChange={(value) =>
+                      handleSettingChange("passwordMinLength", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
