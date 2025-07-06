@@ -481,14 +481,27 @@ export default function AdminSettings() {
                   <label className="text-sm font-medium text-gray-600 mb-2 block">
                     bKash Personal Number
                   </label>
-                  <Input placeholder="+880 1700-000000" />
+                  <Input
+                    value={settings.bkashNumber}
+                    onChange={(e) =>
+                      handleSettingChange("bkashNumber", e.target.value)
+                    }
+                    placeholder="+880 1700-000000"
+                  />
                 </div>
 
                 <div>
                   <label className="text-sm font-medium text-gray-600 mb-2 block">
                     SMS Gateway API Key
                   </label>
-                  <Input type="password" placeholder="Enter API key" />
+                  <Input
+                    type="password"
+                    value={settings.smsApiKey}
+                    onChange={(e) =>
+                      handleSettingChange("smsApiKey", e.target.value)
+                    }
+                    placeholder="Enter API key"
+                  />
                 </div>
               </div>
 
