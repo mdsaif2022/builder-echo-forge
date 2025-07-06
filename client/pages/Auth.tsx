@@ -222,21 +222,36 @@ export default function Auth() {
 
                 <TabsContent value="login" className="space-y-4 mt-6">
                   {/* Login Form */}
-                  <div className="space-y-4">
+                  <form onSubmit={handleLogin} className="space-y-4">
+                    {/* Error Display */}
+                    {errors.general && (
+                      <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                        <p className="text-red-600 text-sm">{errors.general}</p>
+                      </div>
+                    )}
+
                     <div className="flex gap-2">
                       <Button
+                        type="button"
                         variant={authMethod === "phone" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setAuthMethod("phone")}
+                        onClick={() => {
+                          setAuthMethod("phone");
+                          setErrors({});
+                        }}
                         className="flex-1"
                       >
                         <Phone className="w-4 h-4 mr-2" />
                         Phone
                       </Button>
                       <Button
+                        type="button"
                         variant={authMethod === "email" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setAuthMethod("email")}
+                        onClick={() => {
+                          setAuthMethod("email");
+                          setErrors({});
+                        }}
                         className="flex-1"
                       >
                         <Mail className="w-4 h-4 mr-2" />
@@ -244,29 +259,92 @@ export default function Auth() {
                       </Button>
                     </div>
 
-                    {authMethod === "phone" ? (
-                      <Input
-                        placeholder="Enter your phone number"
-                        className="border-emerald-200 focus:border-emerald-500"
-                      />
-                    ) : (
-                      <Input
-                        type="email"
-                        placeholder="Enter your email address"
-                        className="border-emerald-200 focus:border-emerald-500"
-                      />
-                    )}
+                    <div>
+                      {authMethod === "phone" ? (
+                        <Input
+                          placeholder="Enter your phone number"
+                          value={loginData.phoneOrEmail}
+                          onChange={(e) =>
+                            setLoginData({
+                              ...loginData,
+                              phoneOrEmail: e.target.value,
+                            })
+                          }
+                          className={`border-emerald-200 focus:border-emerald-500 ${
+                            errors.phoneOrEmail ? "border-red-500" : ""
+                          }`}
+                        />
+                      ) : (
+                        <Input
+                          type="email"
+                          placeholder="Enter your email address"
+                          value={loginData.phoneOrEmail}
+                          onChange={(e) =>
+                            setLoginData({
+                              ...loginData,
+                              phoneOrEmail: e.target.value,
+                            })
+                          }
+                          className={`border-emerald-200 focus:border-emerald-500 ${
+                            errors.phoneOrEmail ? "border-red-500" : ""
+                          }`}
+                        />
+                      )}
+                      {errors.phoneOrEmail && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.phoneOrEmail}
+                        </p>
+                      )}
+                    </div>
 
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      className="border-emerald-200 focus:border-emerald-500"
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        value={loginData.password}
+                        onChange={(e) =>
+                          setLoginData({
+                            ...loginData,
+                            password: e.target.value,
+                          })
+                        }
+                        className={`border-emerald-200 focus:border-emerald-500 pr-10 ${
+                          errors.password ? "border-red-500" : ""
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-4 h-4 text-gray-400" />
+                        ) : (
+                          <Eye className="w-4 h-4 text-gray-400" />
+                        )}
+                      </button>
+                      {errors.password && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
 
-                    <Button className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800">
-                      Login
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800"
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center">
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                          Logging in...
+                        </div>
+                      ) : (
+                        "Login"
+                      )}
                     </Button>
-                  </div>
+                  </form>
                 </TabsContent>
 
                 <TabsContent value="signup" className="space-y-4 mt-6">
