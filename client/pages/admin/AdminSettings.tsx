@@ -628,11 +628,29 @@ export default function AdminSettings() {
       </Tabs>
 
       {/* Save Button */}
-      <div className="flex justify-end mt-8">
-        <Button className="bg-emerald-600 hover:bg-emerald-700">
-          <Save className="w-4 h-4 mr-2" />
-          Save All Settings
-        </Button>
+      <div className="flex justify-between items-center mt-8">
+        {savedMessage && (
+          <div
+            className={`flex items-center ${savedMessage.includes("Error") ? "text-red-600" : "text-green-600"}`}
+          >
+            <Check className="w-4 h-4 mr-2" />
+            {savedMessage}
+          </div>
+        )}
+        <div className="ml-auto">
+          <Button
+            className="bg-emerald-600 hover:bg-emerald-700"
+            onClick={handleSaveSettings}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4 mr-2" />
+            )}
+            {isLoading ? "Saving..." : "Save All Settings"}
+          </Button>
+        </div>
       </div>
     </div>
   );
