@@ -5,11 +5,191 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Phone, Mail, Facebook } from "lucide-react";
+import { Phone, Mail, Facebook, Eye, EyeOff, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
+  const navigate = useNavigate();
   const [authMethod, setAuthMethod] = useState<"phone" | "email">("phone");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Login form state
+  const [loginData, setLoginData] = useState({
+    phoneOrEmail: "",
+    password: "",
+  });
+
+  // Signup form state
+  const [signupData, setSignupData] = useState({
+    firstName: "",
+    lastName: "",
+    phoneOrEmail: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const validateLogin = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!loginData.phoneOrEmail.trim()) {
+      newErrors.phoneOrEmail =
+        authMethod === "phone"
+          ? "Phone number is required"
+          : "Email is required";
+    } else if (
+      authMethod === "email" &&
+      !loginData.phoneOrEmail.includes("@")
+    ) {
+      newErrors.phoneOrEmail = "Please enter a valid email address";
+    } else if (authMethod === "phone" && loginData.phoneOrEmail.length < 10) {
+      newErrors.phoneOrEmail = "Please enter a valid phone number";
+    }
+
+    if (!loginData.password.trim()) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validateSignup = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!signupData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+
+    if (!signupData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    }
+
+    if (!signupData.phoneOrEmail.trim()) {
+      newErrors.phoneOrEmail =
+        authMethod === "phone"
+          ? "Phone number is required"
+          : "Email is required";
+    } else if (
+      authMethod === "email" &&
+      !signupData.phoneOrEmail.includes("@")
+    ) {
+      newErrors.phoneOrEmail = "Please enter a valid email address";
+    } else if (authMethod === "phone" && signupData.phoneOrEmail.length < 10) {
+      newErrors.phoneOrEmail = "Please enter a valid phone number";
+    }
+
+    if (!signupData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (signupData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (!signupData.confirmPassword.trim()) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (signupData.password !== signupData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+
+    if (!validateLogin()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      console.log("Login successful:", loginData);
+
+      // Simulate successful login
+      setIsSuccess(true);
+
+      // Redirect after success
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (error) {
+      setErrors({ general: "Login failed. Please check your credentials." });
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+
+    if (!validateSignup()) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      console.log("Signup successful:", signupData);
+
+      // Simulate successful signup
+      setIsSuccess(true);
+
+      // Redirect after success
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (error) {
+      setErrors({ general: "Signup failed. Please try again." });
+      console.error("Signup error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSocialLogin = (provider: string) => {
+    console.log(`Login with ${provider}`);
+    // In a real app, this would redirect to the OAuth provider
+    alert(
+      `Login with ${provider} - This would redirect to ${provider} OAuth in a real app`,
+    );
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen">
+        <Navigation />
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-emerald-50 to-white">
+          <div className="text-center px-4">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-10 h-10 text-green-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-emerald-900 mb-4">
+              Welcome to Explore BD!
+            </h2>
+            <p className="text-emerald-700 mb-6">
+              You have been successfully logged in. Redirecting to homepage...
+            </p>
+            <div className="w-8 h-8 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
