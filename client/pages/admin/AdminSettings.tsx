@@ -30,31 +30,7 @@ import {
 import { useSettings } from "../../contexts/SettingsContext";
 
 export default function AdminSettings() {
-  const [settings, setSettings] = useState({
-    siteName: "Explore BD",
-    siteDescription: "Discover the Beauty of Bangladesh",
-    contactEmail: "info@explorebd.com",
-    supportEmail: "support@explorebd.com",
-    phone: "+880 1700-000000",
-    address: "123 Gulshan Avenue, Dhaka 1212, Bangladesh",
-    enableRegistration: true,
-    requireEmailVerification: true,
-    enableBlogSubmissions: true,
-    autoApprovePosts: false,
-    maxFileSize: "10",
-    allowedFileTypes: "jpg,jpeg,png,pdf",
-    emailNotifications: true,
-    smsNotifications: true,
-    maintenanceMode: false,
-    contentGuidelines:
-      "Please ensure your content is family-friendly and relevant to Bangladesh tourism. Include high-quality images and provide accurate information about destinations.",
-    bkashNumber: "+880 1700-000000",
-    smsApiKey: "",
-    defaultUserRole: "user",
-    passwordMinLength: "8",
-    systemTimezone: "asia-dhaka",
-    dateFormat: "dd-mm-yyyy",
-  });
+  const { settings, updateSettings, isLoading: contextLoading } = useSettings();
 
   const [siteLogo, setSiteLogo] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,10 +38,7 @@ export default function AdminSettings() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSettingChange = (key: string, value: any) => {
-    setSettings((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+    updateSettings({ [key]: value });
   };
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
