@@ -424,6 +424,29 @@ export default function Booking() {
                     </div>
                   </div>
 
+                  <div>
+                    <Label htmlFor="notes">
+                      Notes for Tour Host / Admin (Optional)
+                    </Label>
+                    <Textarea
+                      id="notes"
+                      value={bookingData.notes}
+                      onChange={(e) =>
+                        setBookingData((prev) => ({
+                          ...prev,
+                          notes: e.target.value,
+                        }))
+                      }
+                      placeholder="Share any special requests, dietary preferences, accessibility needs, or suggestions for the tour host..."
+                      rows={4}
+                      className="mt-2"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      This information will be shared with your tour guide and
+                      our admin team to help customize your experience.
+                    </p>
+                  </div>
+
                   <Button
                     onClick={() => setStep(2)}
                     className="w-full bg-emerald-600 hover:bg-emerald-700"
