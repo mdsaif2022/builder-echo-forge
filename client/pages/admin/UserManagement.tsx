@@ -236,7 +236,7 @@ export default function UserManagement() {
                   Verified Users
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {users.filter((u) => u.status === "verified").length}
+                  {userList.filter((u) => u.status === "verified").length}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-green-100">
