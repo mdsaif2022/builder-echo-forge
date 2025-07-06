@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,7 @@ import {
   RefreshCw,
   Database,
   Server,
+  Check,
 } from "lucide-react";
 
 export default function AdminSettings() {
@@ -45,11 +46,49 @@ export default function AdminSettings() {
     maintenanceMode: false,
   });
 
+  const [siteLogo, setSiteLogo] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [savedMessage, setSavedMessage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleSettingChange = (key: string, value: any) => {
     setSettings((prev) => ({
       ...prev,
       [key]: value,
     }));
+  };
+
+  const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSiteLogo(file);
+    }
+  };
+
+  const handleLogoButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleSaveSettings = async () => {
+    setIsLoading(true);
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      console.log("Saving settings:", settings);
+      if (siteLogo) {
+        console.log("Uploading logo:", siteLogo.name);
+      }
+
+      setSavedMessage("Settings saved successfully!");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } catch (error) {
+      console.error("Error saving settings:", error);
+      setSavedMessage("Error saving settings. Please try again.");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
