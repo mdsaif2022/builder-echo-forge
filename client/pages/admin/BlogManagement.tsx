@@ -292,7 +292,7 @@ export default function BlogManagement() {
                   Pending Review
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {blogPosts.filter((p) => p.status === "pending").length}
+                  {getPendingPosts().length}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-yellow-100">
@@ -310,7 +310,7 @@ export default function BlogManagement() {
                   Approved Posts
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {blogPosts.filter((p) => p.status === "approved").length}
+                  {getApprovedPosts().length}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-green-100">
