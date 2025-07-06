@@ -7,6 +7,7 @@ import { useSettings } from "../contexts/SettingsContext";
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { settings } = useSettings();
 
   const navigationItems = [
     { name: "Home", path: "/" },
