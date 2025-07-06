@@ -24,46 +24,7 @@ import {
   Check,
   Upload,
 } from "lucide-react";
-
-// Sample tour data - in real app this would come from API
-const tours = [
-  {
-    id: 1,
-    name: "Sundarbans Adventure",
-    location: "Khulna Division",
-    destination: "Khulna",
-    duration: "3 Days",
-    price: 15000,
-    image: "🌿",
-  },
-  {
-    id: 2,
-    name: "Cox's Bazar Beach",
-    location: "Chittagong Division",
-    destination: "Cox's Bazar",
-    duration: "2 Days",
-    price: 8000,
-    image: "🏖️",
-  },
-  {
-    id: 3,
-    name: "Srimangal Tea Gardens",
-    location: "Sylhet Division",
-    destination: "Sylhet",
-    duration: "2 Days",
-    price: 6500,
-    image: "🍃",
-  },
-  {
-    id: 4,
-    name: "Historical Dhaka",
-    location: "Dhaka Division",
-    destination: "Dhaka",
-    duration: "1 Day",
-    price: 3500,
-    image: "🏛️",
-  },
-];
+import { useTours } from "@/contexts/TourContext";
 
 const locations = [
   "Dhaka",
@@ -108,9 +69,9 @@ const generateSeats = () => {
 
 export default function Booking() {
   const [searchParams] = useSearchParams();
+  const { getTourById, tours } = useTours();
   const tourId = searchParams.get("tour");
-  const selectedTour =
-    tours.find((t) => t.id === parseInt(tourId || "1")) || tours[0];
+  const selectedTour = getTourById(parseInt(tourId || "1")) || tours[0];
 
   const [step, setStep] = useState(1);
   const [isConfirming, setIsConfirming] = useState(false);
