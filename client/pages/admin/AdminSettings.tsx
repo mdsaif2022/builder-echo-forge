@@ -627,7 +627,12 @@ export default function AdminSettings() {
                   <label className="text-sm font-medium text-gray-600 mb-2 block">
                     System Timezone
                   </label>
-                  <Select defaultValue="asia-dhaka">
+                  <Select
+                    value={settings.systemTimezone}
+                    onValueChange={(value) =>
+                      handleSettingChange("systemTimezone", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -645,7 +650,12 @@ export default function AdminSettings() {
                   <label className="text-sm font-medium text-gray-600 mb-2 block">
                     Date Format
                   </label>
-                  <Select defaultValue="dd-mm-yyyy">
+                  <Select
+                    value={settings.dateFormat}
+                    onValueChange={(value) =>
+                      handleSettingChange("dateFormat", value)
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
