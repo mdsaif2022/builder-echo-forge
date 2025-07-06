@@ -663,18 +663,35 @@ export default function AdminSettings() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button variant="outline" className="w-full justify-start">
-                  <RefreshCw className="w-4 h-4 mr-2" />
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={handleClearCache}
+                  disabled={isLoading}
+                >
+                  <RefreshCw
+                    className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
+                  />
                   Clear Cache
                 </Button>
 
-                <Button variant="outline" className="w-full justify-start">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={handleBackupDatabase}
+                  disabled={isLoading}
+                >
                   <Database className="w-4 h-4 mr-2" />
                   Backup Database
                 </Button>
 
-                <Button variant="outline" className="w-full justify-start">
-                  <Upload className="w-4 h-4 mr-2" />
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={handleExportData}
+                  disabled={isLoading}
+                >
+                  <Download className="w-4 h-4 mr-2" />
                   Export Data
                 </Button>
 
