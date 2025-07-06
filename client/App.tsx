@@ -35,36 +35,37 @@ const App = () => (
         <TourProvider>
           <BlogProvider>
             <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/tours" element={<Tours />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/booking" element={<Booking />} />
-                <Route path="/blog/submit" element={<BlogSubmission />} />
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  {/* Public Routes */}
+                  <Route path="/" element={<Index />} />
+                  <Route path="/tours" element={<Tours />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/booking" element={<Booking />} />
+                  <Route path="/blog/submit" element={<BlogSubmission />} />
 
-                {/* Admin Routes */}
-                <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<AdminDashboard />} />
-                  <Route path="users" element={<UserManagement />} />
-                  <Route path="tours" element={<TourManagement />} />
-                  <Route path="tours/new" element={<NewTour />} />
-                  <Route path="blogs" element={<BlogManagement />} />
-                  <Route path="settings" element={<AdminSettings />} />
-                </Route>
+                  {/* Admin Routes */}
+                  <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="users" element={<UserManagement />} />
+                    <Route path="tours" element={<TourManagement />} />
+                    <Route path="tours/new" element={<NewTour />} />
+                    <Route path="blogs" element={<BlogManagement />} />
+                    <Route path="settings" element={<AdminSettings />} />
+                  </Route>
 
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </BlogProvider>
-      </TourProvider>
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </BlogProvider>
+        </TourProvider>
+      </BookingProvider>
     </SettingsProvider>
   </QueryClientProvider>
 );
