@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, MapPin, Phone, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSettings } from "../contexts/SettingsContext";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
