@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useBlogs } from "@/contexts/BlogContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,127 +52,24 @@ import {
   Flag,
 } from "lucide-react";
 
-const blogPosts = [
-  {
-    id: 1,
-    title: "My Journey Through the Sundarbans",
-    author: {
-      name: "John Doe",
-      email: "john@email.com",
-      avatar: null,
-    },
-    content:
-      "The Sundarbans mangrove forest was truly a magical experience. From the moment we entered the boat, I knew this was going to be special. The dense mangrove canopy created natural tunnels as we navigated through the narrow channels...",
-    excerpt:
-      "An unforgettable experience spotting Bengal tigers and exploring the world's largest mangrove forest.",
-    status: "pending",
-    submissionDate: "2024-01-15",
-    category: "Adventure",
-    readTime: "5 min read",
-    likes: 0,
-    comments: 0,
-    views: 0,
-    images: ["sundarbans1.jpg", "sundarbans2.jpg"],
-    tags: ["Sundarbans", "Wildlife", "Adventure", "Bengal Tiger"],
-  },
-  {
-    id: 2,
-    title: "Tea Gardens and Morning Mist in Srimangal",
-    author: {
-      name: "Jane Smith",
-      email: "jane@email.com",
-      avatar: null,
-    },
-    content:
-      "Waking up at dawn in Srimangal to witness the morning mist rolling over the tea gardens is something that will stay with me forever. The rolling hills covered in emerald green tea bushes...",
-    excerpt:
-      "Walking through the rolling hills of tea gardens while learning about local tea culture.",
-    status: "pending",
-    submissionDate: "2024-01-14",
-    category: "Culture",
-    readTime: "4 min read",
-    likes: 0,
-    comments: 0,
-    views: 0,
-    images: ["tea1.jpg"],
-    tags: ["Srimangal", "Tea", "Culture", "Nature"],
-  },
-  {
-    id: 3,
-    title: "Cox's Bazar Sunset Experience",
-    author: {
-      name: "Mike Johnson",
-      email: "mike@email.com",
-      avatar: null,
-    },
-    content:
-      "The world's longest natural sea beach offers some of the most spectacular sunsets I've ever witnessed. As the golden hour approached, the entire beach transformed into a canvas of colors...",
-    excerpt:
-      "Witnessing the golden sunrise over the world's longest natural beach was truly magical.",
-    status: "approved",
-    submissionDate: "2024-01-13",
-    publishDate: "2024-01-13",
-    category: "Beach",
-    readTime: "3 min read",
-    likes: 24,
-    comments: 8,
-    views: 156,
-    images: ["coxsbazar1.jpg", "coxsbazar2.jpg", "coxsbazar3.jpg"],
-    tags: ["Cox's Bazar", "Beach", "Sunset", "Photography"],
-  },
-  {
-    id: 4,
-    title: "Exploring Old Dhaka's Hidden Gems",
-    author: {
-      name: "Sarah Ahmed",
-      email: "sarah@email.com",
-      avatar: null,
-    },
-    content:
-      "Old Dhaka is a treasure trove of history, culture, and architectural marvels. Walking through the narrow lanes of Old Dhaka feels like traveling back in time...",
-    excerpt:
-      "Discovering ancient architecture, vibrant markets, and rich Mughal heritage in Old Dhaka.",
-    status: "approved",
-    submissionDate: "2024-01-10",
-    publishDate: "2024-01-11",
-    category: "History",
-    readTime: "6 min read",
-    likes: 42,
-    comments: 15,
-    views: 298,
-    images: ["olddhaka1.jpg", "olddhaka2.jpg"],
-    tags: ["Dhaka", "History", "Architecture", "Culture"],
-  },
-  {
-    id: 5,
-    title: "Inappropriate Content Test",
-    author: {
-      name: "Bad User",
-      email: "bad@email.com",
-      avatar: null,
-    },
-    content:
-      "This is a test post with inappropriate content that should be rejected...",
-    excerpt: "Test post that should be rejected",
-    status: "rejected",
-    submissionDate: "2024-01-12",
-    rejectionReason: "Inappropriate content and language",
-    category: "Other",
-    readTime: "1 min read",
-    likes: 0,
-    comments: 0,
-    views: 0,
-    images: [],
-    tags: [],
-  },
-];
-
 export default function BlogManagement() {
+  const {
+    blogPosts,
+    deleteBlogPost,
+    approveBlogPost,
+    rejectBlogPost,
+    updateBlogPost,
+    getPendingPosts,
+    getApprovedPosts,
+  } = useBlogs();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [adminNotes, setAdminNotes] = useState("");
+  const [rejectionReason, setRejectionReason] = useState("");
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesSearch =
