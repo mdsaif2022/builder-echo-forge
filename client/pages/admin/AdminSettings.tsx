@@ -25,7 +25,9 @@ import {
   Database,
   Server,
   Check,
+  Download,
 } from "lucide-react";
+import { useSettings } from "../../contexts/SettingsContext";
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
