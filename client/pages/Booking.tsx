@@ -87,6 +87,7 @@ export default function Booking() {
       email: "",
       phone: "",
     },
+    notes: "",
     transactionId: "",
     paymentProof: null as File | null,
   });
