@@ -218,7 +218,7 @@ export default function UserManagement() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Users</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {users.length}
+                  {userList.length}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-blue-100">
