@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTours } from "@/contexts/TourContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -50,78 +51,8 @@ import {
   Upload,
 } from "lucide-react";
 
-const tours = [
-  {
-    id: 1,
-    name: "Sundarbans Adventure",
-    location: "Khulna Division",
-    duration: "3 Days",
-    maxParticipants: 12,
-    price: 15000,
-    rating: 4.9,
-    status: "active",
-    bookings: 142,
-    image: "🌿",
-    description:
-      "Explore the world's largest mangrove forest and spot Bengal tigers in their natural habitat.",
-    highlights: ["Royal Bengal Tiger", "Boat Safari", "Mangrove Ecosystem"],
-    includes: ["Accommodation", "Meals", "Guide", "Transportation"],
-    createdDate: "2024-01-01",
-  },
-  {
-    id: 2,
-    name: "Cox's Bazar Beach",
-    location: "Chittagong Division",
-    duration: "2 Days",
-    maxParticipants: 20,
-    price: 8000,
-    rating: 4.8,
-    status: "active",
-    bookings: 98,
-    image: "🏖️",
-    description:
-      "Experience the world's longest natural sea beach with golden sand and stunning sunsets.",
-    highlights: ["Longest Sea Beach", "Sunset Views", "Water Sports"],
-    includes: ["Hotel Stay", "Breakfast", "Transportation"],
-    createdDate: "2024-01-02",
-  },
-  {
-    id: 3,
-    name: "Srimangal Tea Gardens",
-    location: "Sylhet Division",
-    duration: "2 Days",
-    maxParticipants: 15,
-    price: 6500,
-    rating: 4.7,
-    status: "active",
-    bookings: 76,
-    image: "🍃",
-    description:
-      "Walk through rolling hills covered in lush tea gardens and learn about tea culture.",
-    highlights: ["Tea Plantations", "Lawachara Forest", "Tribal Culture"],
-    includes: ["Accommodation", "Tea Tasting", "Forest Guide"],
-    createdDate: "2024-01-03",
-  },
-  {
-    id: 4,
-    name: "Historical Dhaka",
-    location: "Dhaka Division",
-    duration: "1 Day",
-    maxParticipants: 25,
-    price: 3500,
-    rating: 4.6,
-    status: "draft",
-    bookings: 0,
-    image: "🏛️",
-    description:
-      "Discover ancient architecture, vibrant markets, and rich Mughal heritage.",
-    highlights: ["Lalbagh Fort", "Old Dhaka", "Mughal Architecture"],
-    includes: ["Guide", "Lunch", "Entry Tickets"],
-    createdDate: "2024-01-15",
-  },
-];
-
 export default function TourManagement() {
+  const { tours, deleteTour } = useTours();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedTour, setSelectedTour] = useState<any>(null);
@@ -500,7 +431,18 @@ export default function TourManagement() {
                             <DollarSign className="w-4 h-4 mr-2" />
                             Manage Pricing
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
+                          <DropdownMenuItem
+                            className="text-red-600"
+                            onClick={() => {
+                              if (
+                                confirm(
+                                  `Are you sure you want to delete "${tour.name}"?`,
+                                )
+                              ) {
+                                deleteTour(tour.id);
+                              }
+                            }}
+                          >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete Tour
                           </DropdownMenuItem>
