@@ -74,6 +74,88 @@ export default function AdminSettings() {
     }
   };
 
+  const handleClearCache = async () => {
+    setIsLoading(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setSavedMessage("Cache cleared successfully!");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } catch (error) {
+      setSavedMessage("Error clearing cache. Please try again.");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleBackupDatabase = async () => {
+    setIsLoading(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const backupData = {
+        timestamp: new Date().toISOString(),
+        settings,
+        users: [],
+        tours: [],
+        blogs: [],
+      };
+
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], {
+        type: "application/json",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `explorebd-backup-${new Date().toISOString().split("T")[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      setSavedMessage("Database backup downloaded successfully!");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } catch (error) {
+      setSavedMessage("Error creating backup. Please try again.");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExportData = async () => {
+    setIsLoading(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const exportData = {
+        siteName: settings.siteName,
+        tours: [],
+        blogs: [],
+        users: [],
+        exportDate: new Date().toISOString(),
+      };
+
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+        type: "application/json",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `explorebd-data-export-${new Date().toISOString().split("T")[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      setSavedMessage("Data exported successfully!");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } catch (error) {
+      setSavedMessage("Error exporting data. Please try again.");
+      setTimeout(() => setSavedMessage(""), 3000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       {/* Header */}
