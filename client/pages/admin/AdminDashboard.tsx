@@ -21,6 +21,7 @@ export default function AdminDashboard() {
   const { tours } = useTours();
   const { blogPosts } = useBlogs();
   const { settings } = useSettings();
+  const { bookings, getRecentBookings } = useBookings();
 
   // Calculate dynamic statistics
   const totalUsers = 2847; // Mock data - in real app would come from user context
