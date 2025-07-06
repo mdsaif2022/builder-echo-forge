@@ -397,20 +397,32 @@ export default function UserManagement() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
-                            onClick={() => setSelectedUser(user)}
+                            onClick={() => handleViewUser(user)}
                           >
                             <Eye className="w-4 h-4 mr-2" />
                             View Details
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleChangeRole(
+                                user.id,
+                                user.role === "user" ? "blogger" : "user",
+                              )
+                            }
+                          >
                             <Edit className="w-4 h-4 mr-2" />
-                            Edit User
+                            Change Role
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleVerifyUser(user.id)}
+                          >
                             <ShieldCheck className="w-4 h-4 mr-2" />
                             {user.status === "verified" ? "Suspend" : "Verify"}
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
+                          <DropdownMenuItem
+                            className="text-red-600"
+                            onClick={() => handleDeleteUser(user.id)}
+                          >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete User
                           </DropdownMenuItem>
