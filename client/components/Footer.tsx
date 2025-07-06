@@ -10,6 +10,8 @@ import {
 import { useSettings } from "../contexts/SettingsContext";
 
 export default function Footer() {
+  const { settings } = useSettings();
+
   return (
     <footer className="bg-emerald-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
