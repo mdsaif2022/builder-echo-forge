@@ -116,6 +116,40 @@ export default function UserManagement() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
   const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [userList, setUserList] = useState(users);
+  const [showUserModal, setShowUserModal] = useState(false);
+
+  const handleVerifyUser = (userId: number) => {
+    setUserList((prev) =>
+      prev.map((user) =>
+        user.id === userId
+          ? {
+              ...user,
+              status: user.status === "verified" ? "pending" : "verified",
+            }
+          : user,
+      ),
+    );
+  };
+
+  const handleChangeRole = (userId: number, newRole: string) => {
+    setUserList((prev) =>
+      prev.map((user) =>
+        user.id === userId ? { ...user, role: newRole } : user,
+      ),
+    );
+  };
+
+  const handleDeleteUser = (userId: number) => {
+    if (confirm("Are you sure you want to delete this user?")) {
+      setUserList((prev) => prev.filter((user) => user.id !== userId));
+    }
+  };
+
+  const handleViewUser = (user: any) => {
+    setSelectedUser(user);
+    setShowUserModal(true);
+  };
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
