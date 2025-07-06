@@ -74,41 +74,19 @@ export default function AdminDashboard() {
     },
   ];
 
-  // Mock recent bookings data
-  const recentBookings = [
-    {
-      id: 1,
-      user: "Sarah Ahmed",
-      tour: "Sundarbans Adventure",
-      date: "2024-01-15",
-      amount: "৳15,000",
-      status: "confirmed",
-    },
-    {
-      id: 2,
-      user: "Rahul Khan",
-      tour: "Cox's Bazar Getaway",
-      date: "2024-01-14",
-      amount: "৳8,000",
-      status: "pending",
-    },
-    {
-      id: 3,
-      user: "Maya Begum",
-      tour: "Srimangal Tea Tour",
-      date: "2024-01-13",
-      amount: "৳6,500",
-      status: "confirmed",
-    },
-    {
-      id: 4,
-      user: "David Smith",
-      tour: "Historical Dhaka",
-      date: "2024-01-12",
-      amount: "৳3,500",
-      status: "confirmed",
-    },
-  ];
+  // Get real-time recent bookings with user notes
+  const recentBookings = getRecentBookings(4).map((booking) => ({
+    id: booking.id,
+    user: booking.user.name,
+    tour: booking.tourName,
+    date: booking.date,
+    amount: `৳${booking.amount.toLocaleString()}`,
+    status: booking.status,
+    notes: booking.notes,
+    persons: booking.persons,
+    seats: booking.selectedSeats.join(", "),
+    phone: booking.user.phone,
+  }));
 
   // Get real pending blog posts
   const pendingBlogs = blogPosts
