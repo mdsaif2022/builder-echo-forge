@@ -25,12 +25,9 @@ export default function AdminDashboard() {
 
   // Calculate dynamic statistics
   const totalUsers = 2847; // Mock data - in real app would come from user context
-  const totalBookings = tours.reduce(
-    (sum, tour) => sum + (tour.bookings || 0),
-    0,
-  );
-  const totalRevenue = tours.reduce(
-    (sum, tour) => sum + (tour.price || 0) * (tour.bookings || 0),
+  const totalBookings = bookings.length;
+  const totalRevenue = bookings.reduce(
+    (sum, booking) => sum + booking.amount,
     0,
   );
   const activeTours = tours.filter((tour) => tour.status === "active").length;
