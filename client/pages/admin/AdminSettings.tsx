@@ -154,10 +154,25 @@ export default function AdminSettings() {
                   </label>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                     <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600">Upload site logo</p>
-                    <Button variant="outline" size="sm" className="mt-2">
-                      Choose File
+                    <p className="text-sm text-gray-600">
+                      {siteLogo ? siteLogo.name : "Upload site logo"}
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={handleLogoButtonClick}
+                      type="button"
+                    >
+                      {siteLogo ? "Change File" : "Choose File"}
                     </Button>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoUpload}
+                      className="hidden"
+                    />
                   </div>
                 </div>
               </CardContent>
