@@ -29,10 +29,10 @@ export default function Navigation() {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent">
-                Explore BD
+                {settings.siteName}
               </h1>
               <p className="text-xs text-emerald-600 font-medium">
-                Discover Bangladesh
+                {settings.siteDescription}
               </p>
             </div>
           </Link>
