@@ -272,7 +272,7 @@ export default function UserManagement() {
                   Active Bloggers
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {users.filter((u) => u.role === "blogger").length}
+                  {userList.filter((u) => u.role === "blogger").length}
                 </p>
               </div>
               <div className="p-3 rounded-lg bg-emerald-100">
