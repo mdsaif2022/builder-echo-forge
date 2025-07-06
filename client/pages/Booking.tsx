@@ -840,6 +840,17 @@ export default function Booking() {
                   </div>
                 )}
 
+                {bookingData.notes && (
+                  <div>
+                    <div className="text-sm font-medium mb-2">
+                      Special Notes:
+                    </div>
+                    <div className="text-xs text-gray-600 bg-gray-50 p-3 rounded-md">
+                      {bookingData.notes}
+                    </div>
+                  </div>
+                )}
+
                 <Separator />
 
                 <div className="space-y-2">
