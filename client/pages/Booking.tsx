@@ -588,7 +588,9 @@ export default function Booking() {
                       </li>
                       <li>
                         bKash Number:{" "}
-                        <strong className="font-mono">{bkashNumber}</strong>
+                        <strong className="font-mono">
+                          {settings.bkashNumber}
+                        </strong>
                       </li>
                       <li>Use "Send Money" option in your bKash app</li>
                       <li>Save the transaction ID after payment</li>
