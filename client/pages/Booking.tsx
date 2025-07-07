@@ -175,7 +175,6 @@ export default function Booking() {
   };
 
   const totalAmount = selectedTour.price * bookingData.persons;
-  const bkashNumber = "+880 1700-000000";
 
   const renderSeatMap = () => (
     <div className="bg-white rounded-xl p-6 shadow-lg">
