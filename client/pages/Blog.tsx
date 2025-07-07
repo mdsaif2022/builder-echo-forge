@@ -61,63 +61,50 @@ export default function Blog() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.from({ length: 9 }).map((_, index) => (
+            {postsToShow.map((post) => (
               <Card
-                key={index}
-                className="overflow-hidden hover:shadow-lg transition-shadow bg-white"
+                key={post.id}
+                className="overflow-hidden hover:shadow-lg transition-shadow bg-white cursor-pointer"
+                onClick={() => openBlogDetail(post)}
               >
                 <div className="h-48 bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-6xl">
-                  {
-                    ["🐅", "🌅", "🍃", "🏛️", "⛰️", "🚤", "🦎", "🌸", "🏖️"][
-                      index
-                    ]
-                  }
+                  {post.images && post.images.length > 0 ? (
+                    <img
+                      src={post.images[0]}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    "📖"
+                  )}
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-emerald-900 mb-3">
-                    {
-                      [
-                        "Tiger Spotting in Sundarbans",
-                        "Sunrise at Cox's Bazar",
-                        "Tea Garden Adventures",
-                        "Exploring Old Dhaka",
-                        "Hill Tracts Journey",
-                        "River Life Experience",
-                        "Wildlife Photography",
-                        "Spring in Rangamati",
-                        "Beach Life Chronicles",
-                      ][index]
-                    }
+                  <div className="mb-3">
+                    <Badge variant="outline" className="text-xs">
+                      {post.category}
+                    </Badge>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-emerald-900 mb-3 line-clamp-2">
+                    {post.title}
                   </h3>
 
                   <p className="text-gray-600 mb-4 text-sm line-clamp-3">
-                    Join me on this incredible journey through Bangladesh's most
-                    beautiful destinations and discover hidden gems that will
-                    take your breath away...
+                    {post.excerpt}
                   </p>
 
                   <div className="flex items-center justify-between text-sm text-emerald-600 mb-4">
                     <div className="flex items-center space-x-1">
                       <User className="w-4 h-4" />
-                      <span>
-                        {
-                          [
-                            "Sarah Ahmed",
-                            "Rahul Khan",
-                            "Maya Begum",
-                            "David Smith",
-                            "Fatima Ali",
-                            "John Doe",
-                            "Rashida Akter",
-                            "Mike Johnson",
-                            "Ayesha Rahman",
-                          ][index]
-                        }
-                      </span>
+                      <span>{post.author.name}</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <Calendar className="w-4 h-4" />
-                      <span>{index + 1} days ago</span>
+                      <span>
+                        {new Date(
+                          post.publishDate || post.submissionDate,
+                        ).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
 
@@ -125,16 +112,21 @@ export default function Blog() {
                     <div className="flex items-center space-x-3">
                       <div className="flex items-center space-x-1">
                         <Eye className="w-3 h-3" />
-                        <span>{Math.floor(Math.random() * 500) + 100}</span>
+                        <span>{post.views}</span>
                       </div>
                       <div className="flex items-center space-x-1">
                         <MessageCircle className="w-3 h-3" />
-                        <span>{Math.floor(Math.random() * 20) + 5}</span>
+                        <span>{post.comments}</span>
                       </div>
                     </div>
-                    <span className="text-emerald-600 font-medium cursor-pointer hover:underline">
-                      Read More
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-emerald-600 font-medium">
+                        {post.readTime}
+                      </span>
+                      <span className="text-emerald-600 font-medium hover:underline">
+                        Read More
+                      </span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
