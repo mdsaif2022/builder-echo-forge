@@ -27,6 +27,7 @@ export default function Blog() {
   const { blogPosts, getApprovedPosts, updateBlogPost } = useBlogs();
   const [visiblePosts, setVisiblePosts] = useState(6);
   const [selectedBlog, setSelectedBlog] = useState<any>(null);
+  const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
 
   const approvedPosts = getApprovedPosts();
   const postsToShow = approvedPosts.slice(0, visiblePosts);
@@ -41,6 +42,80 @@ export default function Blog() {
 
   const closeBlogDetail = () => {
     setSelectedBlog(null);
+  };
+
+  const handleLikeStory = (blogId: number) => {
+    const isLiked = likedPosts.has(blogId);
+
+    if (isLiked) {
+      // Unlike
+      setLikedPosts((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(blogId);
+        return newSet;
+      });
+      updateBlogPost(blogId, {
+        likes: selectedBlog.likes - 1,
+      });
+    } else {
+      // Like
+      setLikedPosts((prev) => new Set(prev).add(blogId));
+      updateBlogPost(blogId, {
+        likes: selectedBlog.likes + 1,
+      });
+    }
+
+    // Update the selected blog state
+    if (selectedBlog && selectedBlog.id === blogId) {
+      setSelectedBlog((prev) => ({
+        ...prev,
+        likes: isLiked ? prev.likes - 1 : prev.likes + 1,
+      }));
+    }
+  };
+
+  const handleShareToFacebook = (blog: any) => {
+    const shareUrl = `${window.location.origin}/blog?post=${blog.id}`;
+    const shareText = `Check out this amazing travel story: "${blog.title}" by ${blog.author.name}`;
+
+    // Facebook share URL
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+
+    // Open Facebook share dialog
+    window.open(
+      facebookShareUrl,
+      "facebook-share-dialog",
+      "width=626,height=436,resizable=yes,scrollbars=yes",
+    );
+  };
+
+  const handleGenericShare = async (blog: any) => {
+    const shareData = {
+      title: blog.title,
+      text: `Amazing travel story by ${blog.author.name}: ${blog.excerpt}`,
+      url: `${window.location.origin}/blog?post=${blog.id}`,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        const shareText = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
+        await navigator.clipboard.writeText(shareText);
+        alert("Story link copied to clipboard!");
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+      // Fallback: copy to clipboard
+      try {
+        const shareText = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
+        await navigator.clipboard.writeText(shareText);
+        alert("Story link copied to clipboard!");
+      } catch (clipboardError) {
+        console.error("Error copying to clipboard:", clipboardError);
+      }
+    }
   };
   return (
     <div className="min-h-screen">
