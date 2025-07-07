@@ -41,6 +41,11 @@ export default function Blog() {
   const [visiblePosts, setVisiblePosts] = useState(6);
   const [selectedBlog, setSelectedBlog] = useState<any>(null);
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
+  const [comments, setComments] = useState<Record<number, Comment[]>>({});
+  const [newComment, setNewComment] = useState("");
+  const [showComments, setShowComments] = useState(false);
+  const [replyTo, setReplyTo] = useState<number | null>(null);
+  const [replyContent, setReplyContent] = useState("");
 
   const approvedPosts = getApprovedPosts();
   const postsToShow = approvedPosts.slice(0, visiblePosts);
