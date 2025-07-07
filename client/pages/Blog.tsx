@@ -22,6 +22,8 @@ import {
   Heart,
   Share2,
   Facebook,
+  Send,
+  Reply,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useBlogs } from "@/contexts/BlogContext";
