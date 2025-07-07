@@ -134,15 +134,33 @@ export default function Blog() {
           </div>
 
           {/* Load More */}
-          <div className="text-center mt-12">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-emerald-600 text-emerald-700 hover:bg-emerald-600 hover:text-white px-8 py-4 font-semibold"
-            >
-              Load More Stories
-            </Button>
-          </div>
+          {visiblePosts < approvedPosts.length && (
+            <div className="text-center mt-12">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-2 border-emerald-600 text-emerald-700 hover:bg-emerald-600 hover:text-white px-8 py-4 font-semibold"
+                onClick={loadMorePosts}
+              >
+                Load More Stories ({approvedPosts.length - visiblePosts}{" "}
+                remaining)
+              </Button>
+            </div>
+          )}
+
+          {postsToShow.length === 0 && (
+            <div className="text-center py-12">
+              <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                No stories available yet
+              </h3>
+              <p className="text-gray-500 mb-6">
+                Be the first to share your travel experience!
+              </p>
+              <Button asChild>
+                <Link to="/blog/submit">Share Your Story</Link>
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
