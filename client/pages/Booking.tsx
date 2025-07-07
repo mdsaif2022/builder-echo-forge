@@ -581,23 +581,22 @@ export default function Booking() {
                     <h3 className="font-semibold text-pink-900 mb-4">
                       Payment Instructions:
                     </h3>
-                    <ol className="list-decimal list-inside space-y-2 text-sm text-pink-800">
-                      <li>
-                        Send <strong>৳{totalAmount.toLocaleString()}</strong> to
-                        our bKash number
-                      </li>
-                      <li>
-                        bKash Number:{" "}
-                        <strong className="font-mono">
-                          {settings.bkashNumber}
+                    <div className="space-y-2 text-sm text-pink-800">
+                      <div className="mb-3">
+                        <strong>
+                          Amount to Pay: ৳{totalAmount.toLocaleString()}
                         </strong>
-                      </li>
-                      <li>Use "Send Money" option in your bKash app</li>
-                      <li>Save the transaction ID after payment</li>
-                      <li>
-                        Upload payment screenshot or enter transaction ID below
-                      </li>
-                    </ol>
+                      </div>
+                      <div className="mb-3">
+                        <strong>bKash Number: </strong>
+                        <span className="font-mono bg-pink-100 px-2 py-1 rounded">
+                          {settings.bkashNumber}
+                        </span>
+                      </div>
+                      <div className="whitespace-pre-line leading-relaxed">
+                        {settings.paymentInstructions}
+                      </div>
+                    </div>
                   </div>
 
                   <div>
