@@ -56,10 +56,79 @@ export default function Blog() {
 
   const openBlogDetail = (blog: any) => {
     setSelectedBlog(blog);
+    setShowComments(false);
+    setNewComment("");
+    setReplyTo(null);
+    setReplyContent("");
   };
 
   const closeBlogDetail = () => {
     setSelectedBlog(null);
+    setShowComments(false);
+    setNewComment("");
+    setReplyTo(null);
+    setReplyContent("");
+  };
+
+  const toggleComments = () => {
+    setShowComments(!showComments);
+  };
+
+  const addComment = (blogId: number) => {
+    if (!newComment.trim()) return;
+
+    const comment: Comment = {
+      id: Date.now(),
+      author: "Anonymous User", // In real app, would use logged-in user
+      content: newComment.trim(),
+      date: new Date().toISOString(),
+      replies: [],
+    };
+
+    setComments((prev) => ({
+      ...prev,
+      [blogId]: [...(prev[blogId] || []), comment],
+    }));
+
+    // Update blog post comment count
+    updateBlogPost(blogId, {
+      comments: (selectedBlog?.comments || 0) + 1,
+    });
+
+    // Update selected blog state
+    if (selectedBlog && selectedBlog.id === blogId) {
+      setSelectedBlog((prev) => ({
+        ...prev,
+        comments: prev.comments + 1,
+      }));
+    }
+
+    setNewComment("");
+  };
+
+  const addReply = (blogId: number, commentId: number) => {
+    if (!replyContent.trim()) return;
+
+    const reply: Comment = {
+      id: Date.now(),
+      author: "Anonymous User",
+      content: replyContent.trim(),
+      date: new Date().toISOString(),
+      replies: [],
+    };
+
+    setComments((prev) => ({
+      ...prev,
+      [blogId]:
+        prev[blogId]?.map((comment) =>
+          comment.id === commentId
+            ? { ...comment, replies: [...comment.replies, reply] }
+            : comment,
+        ) || [],
+    }));
+
+    setReplyTo(null);
+    setReplyContent("");
   };
 
   const handleLikeStory = (blogId: number) => {
