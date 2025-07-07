@@ -189,6 +189,127 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* Blog Detail Modal */}
+      <Dialog open={!!selectedBlog} onOpenChange={closeBlogDetail}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          {selectedBlog && (
+            <>
+              <DialogHeader>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="mb-3">
+                      <Badge variant="outline" className="text-xs">
+                        {selectedBlog.category}
+                      </Badge>
+                    </div>
+                    <DialogTitle className="text-2xl font-bold text-emerald-900 mb-4">
+                      {selectedBlog.title}
+                    </DialogTitle>
+                    <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4">
+                      <div className="flex items-center space-x-1">
+                        <User className="w-4 h-4" />
+                        <span>{selectedBlog.author.name}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>
+                          {new Date(
+                            selectedBlog.publishDate ||
+                              selectedBlog.submissionDate,
+                          ).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Eye className="w-4 h-4" />
+                        <span>{selectedBlog.views} views</span>
+                      </div>
+                      <span className="text-emerald-600 font-medium">
+                        {selectedBlog.readTime}
+                      </span>
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={closeBlogDetail}
+                    className="h-6 w-6 p-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              </DialogHeader>
+
+              <div className="space-y-6">
+                {/* Images */}
+                {selectedBlog.images && selectedBlog.images.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {selectedBlog.images.map((image: string, index: number) => (
+                      <div key={index} className="rounded-lg overflow-hidden">
+                        <img
+                          src={image}
+                          alt={`${selectedBlog.title} - Image ${index + 1}`}
+                          className="w-full h-48 object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Content */}
+                <div className="prose prose-emerald max-w-none">
+                  <div className="whitespace-pre-line text-gray-700 leading-relaxed">
+                    {selectedBlog.content}
+                  </div>
+                </div>
+
+                {/* Tags */}
+                {selectedBlog.tags && selectedBlog.tags.length > 0 && (
+                  <div className="border-t pt-4">
+                    <h4 className="font-semibold text-gray-900 mb-2">Tags:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedBlog.tags.map((tag: string, index: number) => (
+                        <Badge
+                          key={index}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Stats */}
+                <div className="border-t pt-4 flex items-center justify-between">
+                  <div className="flex items-center space-x-4 text-sm text-gray-600">
+                    <div className="flex items-center space-x-1">
+                      <Eye className="w-4 h-4" />
+                      <span>{selectedBlog.views} views</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <MessageCircle className="w-4 h-4" />
+                      <span>{selectedBlog.comments} comments</span>
+                    </div>
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button variant="outline" size="sm">
+                      Share Story
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="bg-emerald-600 hover:bg-emerald-700"
+                    >
+                      Like Story
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
