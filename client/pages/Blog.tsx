@@ -202,6 +202,24 @@ export default function Blog() {
                         <MessageCircle className="w-3 h-3" />
                         <span>{post.comments}</span>
                       </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleLikeStory(post.id);
+                        }}
+                        className={`flex items-center space-x-1 px-2 py-1 rounded transition-colors ${
+                          likedPosts.has(post.id)
+                            ? "text-red-500 hover:text-red-600"
+                            : "text-gray-500 hover:text-red-500"
+                        }`}
+                      >
+                        <Heart
+                          className={`w-3 h-3 ${
+                            likedPosts.has(post.id) ? "fill-current" : ""
+                          }`}
+                        />
+                        <span>{post.likes}</span>
+                      </button>
                     </div>
                     <div className="flex items-center space-x-2">
                       <span className="text-emerald-600 font-medium">
