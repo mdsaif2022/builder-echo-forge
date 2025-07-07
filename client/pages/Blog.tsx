@@ -93,30 +93,114 @@ export default function Blog() {
   };
 
   const handleGenericShare = async (blog: any) => {
-    const shareData = {
-      title: blog.title,
-      text: `Amazing travel story by ${blog.author.name}: ${blog.excerpt}`,
-      url: `${window.location.origin}/blog?post=${blog.id}`,
-    };
+    const shareUrl = `${window.location.origin}/blog?post=${blog.id}`;
+    const shareText = `Amazing travel story: "${blog.title}" by ${blog.author.name}`;
+    const shareContent = `${shareText}\n\n${blog.excerpt}\n\nRead more: ${shareUrl}`;
 
+    // Try multiple sharing methods in order
+
+    // Method 1: Native Web Share API (mobile devices)
+    if (navigator.share && navigator.canShare) {
+      try {
+        const shareData = {
+          title: blog.title,
+          text: shareText,
+          url: shareUrl,
+        };
+
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          return;
+        }
+      } catch (error) {
+        console.log("Native share failed, trying fallback methods");
+      }
+    }
+
+    // Method 2: Try clipboard API with permission check
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(shareContent);
+        alert(
+          "✅ Story link copied to clipboard!\n\nYou can now paste it anywhere to share.",
+        );
+        return;
+      } catch (error) {
+        console.log("Clipboard API failed, trying manual method");
+      }
+    }
+
+    // Method 3: Manual copy using textarea (most compatible)
     try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        // Fallback: copy to clipboard
-        const shareText = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
-        await navigator.clipboard.writeText(shareText);
-        alert("Story link copied to clipboard!");
+      const textArea = document.createElement("textarea");
+      textArea.value = shareContent;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      if (successful) {
+        alert(
+          "✅ Story link copied!\n\nYou can now paste it anywhere to share.",
+        );
+        return;
       }
     } catch (error) {
-      console.error("Error sharing:", error);
-      // Fallback: copy to clipboard
-      try {
-        const shareText = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
-        await navigator.clipboard.writeText(shareText);
-        alert("Story link copied to clipboard!");
-      } catch (clipboardError) {
-        console.error("Error copying to clipboard:", clipboardError);
+      console.log("Manual copy failed");
+    }
+
+    // Method 4: Show share options modal as final fallback
+    const userChoice = confirm(
+      `Share this story:\n\n"${blog.title}"\nby ${blog.author.name}\n\n` +
+        `Click OK to copy the link, or Cancel to see share options.`,
+    );
+
+    if (userChoice) {
+      // Try one more manual copy attempt
+      prompt("Copy this link to share the story:", shareUrl);
+    } else {
+      // Show platform-specific share options
+      const platform = prompt(
+        "Choose sharing platform:\n\n" +
+          "1. WhatsApp\n" +
+          "2. Twitter\n" +
+          "3. Telegram\n" +
+          "4. Email\n\n" +
+          "Enter number (1-4):",
+      );
+
+      switch (platform) {
+        case "1":
+          window.open(
+            `https://wa.me/?text=${encodeURIComponent(shareContent)}`,
+            "_blank",
+          );
+          break;
+        case "2":
+          window.open(
+            `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
+            "_blank",
+          );
+          break;
+        case "3":
+          window.open(
+            `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+            "_blank",
+          );
+          break;
+        case "4":
+          window.open(
+            `mailto:?subject=${encodeURIComponent(blog.title)}&body=${encodeURIComponent(shareContent)}`,
+            "_blank",
+          );
+          break;
+        default:
+          alert("You can manually copy this link:\n\n" + shareUrl);
       }
     }
   };
