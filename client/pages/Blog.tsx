@@ -46,6 +46,9 @@ export default function Blog() {
 
   const handleLikeStory = (blogId: number) => {
     const isLiked = likedPosts.has(blogId);
+    const targetPost = approvedPosts.find((post) => post.id === blogId);
+
+    if (!targetPost) return;
 
     if (isLiked) {
       // Unlike
@@ -55,17 +58,17 @@ export default function Blog() {
         return newSet;
       });
       updateBlogPost(blogId, {
-        likes: selectedBlog.likes - 1,
+        likes: targetPost.likes - 1,
       });
     } else {
       // Like
       setLikedPosts((prev) => new Set(prev).add(blogId));
       updateBlogPost(blogId, {
-        likes: selectedBlog.likes + 1,
+        likes: targetPost.likes + 1,
       });
     }
 
-    // Update the selected blog state
+    // Update the selected blog state if it's the same post
     if (selectedBlog && selectedBlog.id === blogId) {
       setSelectedBlog((prev) => ({
         ...prev,
