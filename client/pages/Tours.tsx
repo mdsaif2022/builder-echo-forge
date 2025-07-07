@@ -1,14 +1,34 @@
+import { useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Clock, Users, Star } from "lucide-react";
+import { MapPin, Clock, Users, Star, RefreshCw } from "lucide-react";
 import { useTours } from "@/contexts/TourContext";
 
 export default function Tours() {
-  const { getActiveTours } = useTours();
+  const { tours: allTours, getActiveTours } = useTours();
+  const [refreshKey, setRefreshKey] = useState(0);
   const tours = getActiveTours();
+
+  // Force refresh when tours change
+  useEffect(() => {
+    setRefreshKey((prev) => prev + 1);
+  }, [allTours.length]);
+
+  // Debug information
+  useEffect(() => {
+    console.log("Tours page updated:", {
+      totalTours: allTours.length,
+      activeTours: tours.length,
+      allTours: allTours.map((t) => ({
+        id: t.id,
+        name: t.name,
+        status: t.status,
+      })),
+    });
+  }, [allTours, tours]);
 
   return (
     <div className="min-h-screen">
