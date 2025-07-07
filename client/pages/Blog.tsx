@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import { useBlogs } from "@/contexts/BlogContext";
 
 export default function Blog() {
-  const { blogPosts, getApprovedPosts } = useBlogs();
+  const { blogPosts, getApprovedPosts, updateBlogPost } = useBlogs();
   const [visiblePosts, setVisiblePosts] = useState(6);
   const [selectedBlog, setSelectedBlog] = useState<any>(null);
 
