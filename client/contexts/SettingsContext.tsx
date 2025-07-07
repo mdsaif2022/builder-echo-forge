@@ -70,6 +70,22 @@ const defaultSettings: SiteSettings = {
   contentGuidelines:
     "Please ensure your content is family-friendly and relevant to Bangladesh tourism. Include high-quality images and provide accurate information about destinations.",
   bkashNumber: "+880 1700-000000",
+  bkashMerchantNumber: "+880 1700-000001",
+  bkashAgentNumber: "+880 1700-000002",
+  bkashPersonalNumber: "+880 1700-000000",
+  paymentInstructions:
+    "1. Send money to our bKash number\n2. Use 'Send Money' option\n3. Save transaction ID\n4. Upload payment screenshot or enter transaction ID\n5. Booking will be confirmed after payment verification",
+  enablePaymentFee: false,
+  paymentFeeAmount: "2.5",
+  paymentFeeType: "percentage",
+  enableNagadPayment: true,
+  nagadNumber: "+880 1700-000003",
+  enableRocketPayment: true,
+  rocketNumber: "+880 1700-000004",
+  enableBankTransfer: false,
+  bankAccountDetails:
+    "Bank: Dutch-Bangla Bank\nAccount Name: Your Company Name\nAccount Number: 1234567890\nBranch: Gulshan Branch, Dhaka",
+  paymentMethodsPriority: ["bkash", "nagad", "rocket", "bank"],
   smsApiKey: "",
   defaultUserRole: "user",
   passwordMinLength: "8",
