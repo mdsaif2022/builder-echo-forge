@@ -44,6 +44,16 @@ export default function Tours() {
             Choose from our curated selection of authentic Bangladesh
             experiences
           </p>
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              onClick={() => setRefreshKey((prev) => prev + 1)}
+              className="text-white border-white hover:bg-white hover:text-emerald-700"
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Refresh Tours
+            </Button>
+          </div>
         </div>
       </section>
 
