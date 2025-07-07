@@ -372,10 +372,17 @@ export default function Blog() {
                         <Eye className="w-3 h-3" />
                         <span>{post.views}</span>
                       </div>
-                      <div className="flex items-center space-x-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openBlogDetail(post);
+                          setShowComments(true);
+                        }}
+                        className="flex items-center space-x-1 px-2 py-1 rounded transition-colors text-gray-500 hover:text-emerald-600"
+                      >
                         <MessageCircle className="w-3 h-3" />
                         <span>{post.comments}</span>
-                      </div>
+                      </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
