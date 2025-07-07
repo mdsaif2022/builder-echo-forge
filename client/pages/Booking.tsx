@@ -72,6 +72,7 @@ const generateSeats = () => {
 export default function Booking() {
   const [searchParams] = useSearchParams();
   const { getTourById, tours } = useTours();
+  const { settings } = useSettings();
   const tourId = searchParams.get("tour");
   const selectedTour = getTourById(parseInt(tourId || "1")) || tours[0];
 
