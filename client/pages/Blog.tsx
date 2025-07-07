@@ -28,6 +28,14 @@ import {
 import { Link } from "react-router-dom";
 import { useBlogs } from "@/contexts/BlogContext";
 
+interface Comment {
+  id: number;
+  author: string;
+  content: string;
+  date: string;
+  replies: Comment[];
+}
+
 export default function Blog() {
   const { blogPosts, getApprovedPosts, updateBlogPost } = useBlogs();
   const [visiblePosts, setVisiblePosts] = useState(6);
