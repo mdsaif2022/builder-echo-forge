@@ -10,7 +10,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { User, Calendar, Eye, MessageCircle, X } from "lucide-react";
+import {
+  User,
+  Calendar,
+  Eye,
+  MessageCircle,
+  X,
+  Heart,
+  Share2,
+  Facebook,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useBlogs } from "@/contexts/BlogContext";
 
