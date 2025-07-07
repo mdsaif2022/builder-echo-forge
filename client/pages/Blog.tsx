@@ -1,11 +1,38 @@
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, Calendar, Eye, MessageCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { User, Calendar, Eye, MessageCircle, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useBlogs } from "@/contexts/BlogContext";
 
 export default function Blog() {
+  const { blogPosts, getApprovedPosts } = useBlogs();
+  const [visiblePosts, setVisiblePosts] = useState(6);
+  const [selectedBlog, setSelectedBlog] = useState<any>(null);
+
+  const approvedPosts = getApprovedPosts();
+  const postsToShow = approvedPosts.slice(0, visiblePosts);
+
+  const loadMorePosts = () => {
+    setVisiblePosts((prev) => Math.min(prev + 6, approvedPosts.length));
+  };
+
+  const openBlogDetail = (blog: any) => {
+    setSelectedBlog(blog);
+  };
+
+  const closeBlogDetail = () => {
+    setSelectedBlog(null);
+  };
   return (
     <div className="min-h-screen">
       <Navigation />
