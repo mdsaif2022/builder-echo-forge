@@ -60,7 +60,20 @@ export default function Tours() {
       {/* Tours Grid */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Tour Stats */}
+          <div className="mb-8 text-center">
+            <p className="text-gray-600">
+              Showing {tours.length} active tour{tours.length !== 1 ? 's' : ''}
+              {allTours.length > tours.length && (
+                <span className="ml-2 text-sm text-gray-500">
+                  ({allTours.length - tours.length} draft/inactive)
+                </span>
+              )}
+            </p>
+          </div>
+
+          {tours.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {tours.map((tour) => (
               <Card
                 key={tour.id}
