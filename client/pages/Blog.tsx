@@ -570,10 +570,13 @@ export default function Blog() {
                       <Eye className="w-4 h-4" />
                       <span>{selectedBlog.views} views</span>
                     </div>
-                    <div className="flex items-center space-x-1">
+                    <button
+                      onClick={toggleComments}
+                      className="flex items-center space-x-1 text-gray-600 hover:text-emerald-600 transition-colors"
+                    >
                       <MessageCircle className="w-4 h-4" />
                       <span>{selectedBlog.comments} comments</span>
-                    </div>
+                    </button>
                   </div>
                   <div className="flex space-x-2">
                     <Button
