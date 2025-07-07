@@ -37,7 +37,7 @@ export default function NewTour() {
     duration: "",
     maxParticipants: "",
     price: "",
-    status: "draft",
+    status: "active",
     description: "",
     highlights: [] as string[],
     includes: [] as string[],
