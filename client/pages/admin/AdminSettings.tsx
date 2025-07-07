@@ -496,6 +496,285 @@ export default function AdminSettings() {
           </Card>
         </TabsContent>
 
+        {/* Payment Settings */}
+        <TabsContent value="payment">
+          <div className="space-y-6">
+            {/* bKash Configuration */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <DollarSign className="w-5 h-5 mr-2" />
+                  bKash Payment Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-2 block">
+                      bKash Personal Number
+                    </label>
+                    <Input
+                      value={settings.bkashPersonalNumber}
+                      onChange={(e) =>
+                        handleSettingChange(
+                          "bkashPersonalNumber",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="+880 1700-000000"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-2 block">
+                      bKash Merchant Number
+                    </label>
+                    <Input
+                      value={settings.bkashMerchantNumber}
+                      onChange={(e) =>
+                        handleSettingChange(
+                          "bkashMerchantNumber",
+                          e.target.value,
+                        )
+                      }
+                      placeholder="+880 1700-000001"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-2 block">
+                      bKash Agent Number
+                    </label>
+                    <Input
+                      value={settings.bkashAgentNumber}
+                      onChange={(e) =>
+                        handleSettingChange("bkashAgentNumber", e.target.value)
+                      }
+                      placeholder="+880 1700-000002"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-2 block">
+                      Primary bKash Number (Used in Booking)
+                    </label>
+                    <select
+                      className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      value={settings.bkashNumber}
+                      onChange={(e) =>
+                        handleSettingChange("bkashNumber", e.target.value)
+                      }
+                    >
+                      <option value={settings.bkashPersonalNumber}>
+                        Personal: {settings.bkashPersonalNumber}
+                      </option>
+                      <option value={settings.bkashMerchantNumber}>
+                        Merchant: {settings.bkashMerchantNumber}
+                      </option>
+                      <option value={settings.bkashAgentNumber}>
+                        Agent: {settings.bkashAgentNumber}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-2 block">
+                    Payment Instructions for Customers
+                  </label>
+                  <Textarea
+                    value={settings.paymentInstructions}
+                    onChange={(e) =>
+                      handleSettingChange("paymentInstructions", e.target.value)
+                    }
+                    placeholder="Enter step-by-step payment instructions..."
+                    rows={6}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    These instructions will be shown to customers during the
+                    payment process.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Payment Fees */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Payment Fees & Charges</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium text-gray-900">
+                      Enable Payment Fee
+                    </h4>
+                    <p className="text-sm text-gray-600">
+                      Add extra charges for payment processing
+                    </p>
+                  </div>
+                  <Switch
+                    checked={settings.enablePaymentFee}
+                    onCheckedChange={(checked) =>
+                      handleSettingChange("enablePaymentFee", checked)
+                    }
+                  />
+                </div>
+
+                {settings.enablePaymentFee && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-medium text-gray-600 mb-2 block">
+                        Fee Amount
+                      </label>
+                      <Input
+                        value={settings.paymentFeeAmount}
+                        onChange={(e) =>
+                          handleSettingChange(
+                            "paymentFeeAmount",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="2.5"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-600 mb-2 block">
+                        Fee Type
+                      </label>
+                      <select
+                        className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        value={settings.paymentFeeType}
+                        onChange={(e) =>
+                          handleSettingChange("paymentFeeType", e.target.value)
+                        }
+                      >
+                        <option value="percentage">Percentage (%)</option>
+                        <option value="fixed">Fixed Amount (৳)</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Alternative Payment Methods */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Alternative Payment Methods</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Nagad */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-gray-900">
+                        Nagad Payment
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Accept payments via Nagad
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings.enableNagadPayment}
+                      onCheckedChange={(checked) =>
+                        handleSettingChange("enableNagadPayment", checked)
+                      }
+                    />
+                  </div>
+                  {settings.enableNagadPayment && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-600 mb-2 block">
+                        Nagad Number
+                      </label>
+                      <Input
+                        value={settings.nagadNumber}
+                        onChange={(e) =>
+                          handleSettingChange("nagadNumber", e.target.value)
+                        }
+                        placeholder="+880 1700-000003"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <Separator />
+
+                {/* Rocket */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-gray-900">
+                        Rocket Payment
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Accept payments via Rocket
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings.enableRocketPayment}
+                      onCheckedChange={(checked) =>
+                        handleSettingChange("enableRocketPayment", checked)
+                      }
+                    />
+                  </div>
+                  {settings.enableRocketPayment && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-600 mb-2 block">
+                        Rocket Number
+                      </label>
+                      <Input
+                        value={settings.rocketNumber}
+                        onChange={(e) =>
+                          handleSettingChange("rocketNumber", e.target.value)
+                        }
+                        placeholder="+880 1700-000004"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <Separator />
+
+                {/* Bank Transfer */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-gray-900">
+                        Bank Transfer
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Accept bank transfers
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings.enableBankTransfer}
+                      onCheckedChange={(checked) =>
+                        handleSettingChange("enableBankTransfer", checked)
+                      }
+                    />
+                  </div>
+                  {settings.enableBankTransfer && (
+                    <div>
+                      <label className="text-sm font-medium text-gray-600 mb-2 block">
+                        Bank Account Details
+                      </label>
+                      <Textarea
+                        value={settings.bankAccountDetails}
+                        onChange={(e) =>
+                          handleSettingChange(
+                            "bankAccountDetails",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Bank Name, Account Number, Branch Details..."
+                        rows={4}
+                      />
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
         {/* Notification Settings */}
         <TabsContent value="notifications">
           <Card>
