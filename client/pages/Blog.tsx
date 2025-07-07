@@ -377,14 +377,42 @@ export default function Blog() {
                     </div>
                   </div>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm">
-                      Share Story
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleGenericShare(selectedBlog)}
+                      className="flex items-center space-x-1"
+                    >
+                      <Share2 className="w-4 h-4" />
+                      <span>Share</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleShareToFacebook(selectedBlog)}
+                      className="flex items-center space-x-1 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+                    >
+                      <Facebook className="w-4 h-4" />
+                      <span>Facebook</span>
                     </Button>
                     <Button
                       size="sm"
-                      className="bg-emerald-600 hover:bg-emerald-700"
+                      onClick={() => handleLikeStory(selectedBlog.id)}
+                      className={`flex items-center space-x-1 ${
+                        likedPosts.has(selectedBlog.id)
+                          ? "bg-red-500 hover:bg-red-600"
+                          : "bg-emerald-600 hover:bg-emerald-700"
+                      }`}
                     >
-                      Like Story
+                      <Heart
+                        className={`w-4 h-4 ${
+                          likedPosts.has(selectedBlog.id) ? "fill-current" : ""
+                        }`}
+                      />
+                      <span>
+                        {likedPosts.has(selectedBlog.id) ? "Liked" : "Like"} (
+                        {selectedBlog.likes})
+                      </span>
                     </Button>
                   </div>
                 </div>
