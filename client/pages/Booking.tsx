@@ -26,6 +26,7 @@ import {
   Upload,
 } from "lucide-react";
 import { useTours } from "@/contexts/TourContext";
+import { useSettings } from "@/contexts/SettingsContext";
 
 const locations = [
   "Dhaka",
