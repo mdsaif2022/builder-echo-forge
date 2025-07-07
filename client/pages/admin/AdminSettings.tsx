@@ -26,6 +26,7 @@ import {
   Server,
   Check,
   Download,
+  DollarSign,
 } from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
 
