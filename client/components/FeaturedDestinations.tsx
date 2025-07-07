@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Clock, Star } from "lucide-react";
@@ -5,8 +6,17 @@ import { Link } from "react-router-dom";
 import { useTours } from "@/contexts/TourContext";
 
 export default function FeaturedDestinations() {
-  const { getActiveTours } = useTours();
+  const { tours: allTours, getActiveTours } = useTours();
   const destinations = getActiveTours().slice(0, 4); // Show first 4 active tours
+
+  // Debug information
+  useEffect(() => {
+    console.log("FeaturedDestinations updated:", {
+      totalTours: allTours.length,
+      activeTours: getActiveTours().length,
+      featuredCount: destinations.length,
+    });
+  }, [allTours, destinations.length]);
 
   return (
     <section className="py-20 bg-gradient-to-b from-emerald-50 to-white">
